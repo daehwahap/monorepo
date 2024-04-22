@@ -1,6 +1,7 @@
 {
   "name": "monorepo",
   "private": true,
+  "packageManager": "pnpm@9.0.4",
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
@@ -13,7 +14,6 @@
     "prettier": "^3.2.5",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@8.9.0",
   "engines": {
     "node": ">=18"
   }

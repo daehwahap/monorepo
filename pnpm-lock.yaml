@@ -94,9 +94,6 @@ importers:
       babel-jest:
         specifier: ^29.6.3
         version: 29.7.0(@babel/core@7.24.4)
-      eslint:
-        specifier: ^8.19.0
-        version: 8.57.0
       jest:
         specifier: ^29.6.3
         version: 29.7.0(@types/node@20.12.7)(ts-node@10.9.2)

@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      eslint:
+        specifier: 8.57.0
+        version: 8.57.0
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -280,6 +284,10 @@ importers:
         version: 5.4.5
 
   packages/eslint-config:
+    dependencies:
+      eslint:
+        specifier: 8.57.0
+        version: 8.57.0
     devDependencies:
       '@typescript-eslint/eslint-plugin':
         specifier: ^7.1.0
@@ -5356,6 +5364,7 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:
+      confusing-browser-globals: 1.0.11
       eslint: 8.57.0
     dev: true
 
@@ -5365,6 +5374,8 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:
+      '@typescript-eslint/eslint-plugin': 7.1.0(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.3.3))(eslint@8.57.0)(typescript@5.3.3)
+      '@typescript-eslint/parser': 7.1.0(eslint@8.57.0)(typescript@5.3.3)
       eslint: 8.57.0
     dev: true
 

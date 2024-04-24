@@ -1,4 +1,7 @@
 module.exports = {
   root: true,
-  extends: '@react-native',
+  extends: ['@daehwahap/eslint-config/react-native.js'],
+  parserOptions: {
+    project: true,
+  },
 };

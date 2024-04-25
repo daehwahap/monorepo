@@ -6,7 +6,11 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "server": "pnpm --filter server start:dev",
+    "prisma": "pnpm --filter server prisma init",
+    "webview": "pnpm --filter webview",
+    "app": "pnpm --filter app"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

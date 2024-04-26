@@ -1,8 +1,8 @@
-import { UserRepository } from './user.repository'
-import { Injectable } from '@nestjs/common'
-import { TrpcService } from '../trpc.service'
-import { UserCreateInputSchema } from 'src/prisma/dto'
-import { z } from 'zod'
+import { UserRepository } from './user.repository';
+import { Injectable } from '@nestjs/common';
+import { TrpcService } from '../trpc.service';
+import { z } from 'zod';
+import { OauthAccessTokenDTO } from './user.dto';
 
 @Injectable()
 export class UserService {
@@ -12,20 +12,16 @@ export class UserService {
   ) {}
 
   createUser = this.trpcService.procedure
-    .input(
-      z.object({
-        email: z.string(),
-        password: z.string(),
-        name: z.string(),
-      }),
-    )
+    .input(OauthAccessTokenDTO)
     .mutation(async ({ input }) => {
-      const signInUser = await this.userRepository.createUser(input)
-
       
-    })
 
-  getUser = this.trpcService.authProcedure.input(z.object({ aa: z.string() })).query(() => {
-    return this.userRepository.getUser()
-  })
+      // const signInUser = await this.userRepository.createUser(input);
+    });
+
+  getUser = this.trpcService.authProcedure
+    .input(z.object({ aa: z.string() }))
+    .query(() => {
+      return this.userRepository.getUser();
+    });
 }

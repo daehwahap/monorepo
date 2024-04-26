@@ -9,7 +9,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "server": "pnpm -F server",
     "webview": "pnpm -F webview",
-    "app": "pnpm - app"
+    "app": "pnpm -F app"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

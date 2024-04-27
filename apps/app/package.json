@@ -33,6 +33,7 @@
     "@react-native/typescript-config": "0.74.81",
     "@repo/server": "workspace:^",
     "@types/react": "^18.2.6",
+    "@pinit/server": "workspace:^",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.6.3",
     "jest": "^29.6.3",

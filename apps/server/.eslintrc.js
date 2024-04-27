@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ['@daehwahap/eslint-config/nest.js'],
+  extends: ['@pinit/eslint-config/nest.js'],
   parserOptions: {
     project: true,
   },

@@ -12,7 +12,7 @@
     "A": "pnpm -F app"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
+    "@pinit/typescript-config": "workspace:*",
     "prettier": "^3.2.5",
     "turbo": "latest",
     "typescript": "5.4.3"

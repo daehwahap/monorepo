@@ -1,5 +1,5 @@
 {
-  "name": "@repo/webview",
+  "name": "@pinit/webview",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -16,9 +16,9 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@daehwahap/eslint-config": "workspace:*",
+    "@pinit/eslint-config": "workspace:*",
+    "@pinit/typescript-config": "workspace:*",
     "@repo/app": "workspace:^",
-    "@repo/typescript-config": "workspace:*",
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19"

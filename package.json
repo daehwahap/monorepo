@@ -14,7 +14,8 @@
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "prettier": "^3.2.5",
-    "turbo": "latest"
+    "turbo": "latest",
+    "typescript": "5.4.3"
   },
   "engines": {
     "node": ">=18"

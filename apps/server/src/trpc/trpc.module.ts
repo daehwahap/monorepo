@@ -7,7 +7,6 @@ import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [forwardRef(() => UserModule), AuthModule],
-  controllers: [],
   providers: [TrpcService, TrpcRouter, UserController],
 })
 export class TrpcModule {}

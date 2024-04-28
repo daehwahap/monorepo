@@ -6,6 +6,7 @@ import React from 'react';
 import {Button, View} from 'react-native';
 import {trpc} from '../trpc';
 import {GOOGLE_AUTH_KEY} from '@env';
+import authStorage from '../storage/Auth';
 
 GoogleSignin.configure({
   iosClientId: GOOGLE_AUTH_KEY,
@@ -17,11 +18,25 @@ export const GoogleLoginTest = () => {
     // GoogleSignin.
     await GoogleSignin.signIn();
     const token = await GoogleSignin.getTokens();
-    const response = await trpc.createUser.mutate({
+    const response = (await trpc.createUser.mutate({
       type: 'google',
       accessToken: token.accessToken,
-    });
-    console.log(response);
+    })) as {accessToken: string};
+    authStorage.setToken(response.accessToken);
+  };
+
+  const handleGetUserInfo = async () => {
+    const info = await trpc.getUser.query();
+    console.log(info);
+  };
+
+  const handleGetUserInfononAuth = async () => {
+    try {
+      const info = await trpc.getUsernonAuth.query();
+      console.log(info);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -36,7 +51,14 @@ export const GoogleLoginTest = () => {
         color={GoogleSigninButton.Color.Dark}
         onPress={handleLoginPress}
       />
-      <Button title="구글 로그인 버튼" onPress={handleLoginPress} />
+
+      <View style={{height: 100}} />
+      <Button title="유저정보 가져오기 버튼" onPress={handleGetUserInfo} />
+      <View style={{height: 100}} />
+      <Button
+        title="유저정보 가져오기 버튼 non auth"
+        onPress={handleGetUserInfononAuth}
+      />
     </View>
   );
 };

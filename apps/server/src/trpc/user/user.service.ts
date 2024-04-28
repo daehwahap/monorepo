@@ -21,18 +21,18 @@ export class UserService {
   createOrGetUser = this.trpcService.procedure
     .input(OauthAccessTokenDTO)
     .mutation(async ({ input }) => {
-      // const signInUser = await this.userRepository.createUser(input);
-      if (input.type === 'google') {
-        return await this.googleLogin(input.accessToken);
-      } else {
-      }
+      return await this.googleLogin(input.accessToken);
     });
 
-  getUser = this.trpcService
-    .authProcedure()
+  getUsernonAuth = this.trpcService.procedure.input(noop).query(() => {
+    return this.userRepository.getUser();
+  });
+
+  getUser = this.trpcService.authProcedure
     .input(noop)
-    .query(() => {
-      return this.userRepository.getUser();
+    .query(async ({ ctx }) => {
+      const { id } = ctx as User;
+      return await this.userRepository.findUserById(id);
     });
 
   private async googleLogin(accessToken: string) {
@@ -49,7 +49,6 @@ export class UserService {
     );
 
     const userInfo = data as Profile['_json'];
-    console.log(userInfo);
 
     try {
       const checkGoogleUser = await this.userRepository.getGoogleUser({
@@ -67,14 +66,16 @@ export class UserService {
           uid: newUser.id,
         });
 
-        return this.authService.jwtSignIn(newUser as User);
+        const accessToken = await this.authService.jwtSignIn(newUser as User);
+        return { accessToken };
       }
 
       const existUser = await this.userRepository.findUserById(
         checkGoogleUser.uid,
       );
+      const accessToken = await this.authService.jwtSignIn(existUser as User);
 
-      return this.authService.jwtSignIn(existUser as User);
+      return { accessToken };
     } catch (e) {
       const newUser = await this.userRepository.createUser({
         imageUrl: userInfo.profile,
@@ -85,7 +86,9 @@ export class UserService {
         uid: newUser.id,
       });
 
-      return this.authService.jwtSignIn(newUser as User);
+      const accessToken = await this.authService.jwtSignIn(newUser as User);
+
+      return { accessToken };
     }
   }
 }

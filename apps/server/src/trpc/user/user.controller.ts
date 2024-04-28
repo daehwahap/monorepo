@@ -12,5 +12,6 @@ export class UserController {
   router = this.trpcService.router({
     createUser: this.UserService.createOrGetUser,
     getUser: this.UserService.getUser,
+    getUsernonAuth: this.UserService.getUsernonAuth,
   });
 }

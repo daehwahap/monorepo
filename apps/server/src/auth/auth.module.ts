@@ -2,10 +2,9 @@ import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt/jwt.strategy';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { SECRET } from './jwt/jwt.constants';
+import { SECRET } from './auth.constants';
 
 @Module({
   imports: [
@@ -16,7 +15,7 @@ import { SECRET } from './jwt/jwt.constants';
     }),
     PrismaModule,
   ],
-  providers: [AuthService, JwtStrategy, PrismaService],
+  providers: [AuthService, PrismaService],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

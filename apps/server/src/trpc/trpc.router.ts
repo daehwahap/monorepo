@@ -1,5 +1,5 @@
 import { UserController } from './user/user.controller';
-import { HttpException, INestApplication, Injectable } from '@nestjs/common';
+import { INestApplication, Injectable } from '@nestjs/common';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import { TrpcService } from './trpc.service';
 

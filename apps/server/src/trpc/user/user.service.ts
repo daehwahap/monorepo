@@ -20,7 +20,8 @@ export class UserService {
 
   createOrGetUser = this.trpcService.procedure
     .input(OauthAccessTokenDTO)
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input }): Promise<{ accessToken: string }> => {
+      console.log('ccc');
       return await this.googleLogin(input.accessToken);
     });
 
@@ -32,6 +33,7 @@ export class UserService {
     .input(noop)
     .query(async ({ ctx }) => {
       const { id } = ctx as User;
+      console.log('aaa');
       return await this.userRepository.findUserById(id);
     });
 

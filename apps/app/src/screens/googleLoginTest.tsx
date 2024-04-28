@@ -4,7 +4,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 import React from 'react';
 import {Button, View} from 'react-native';
-import {trpc} from '../trpc';
+import {trpc, trpcQuery} from '../trpc';
 import {GOOGLE_AUTH_KEY} from '@env';
 import authStorage from '../storage/Auth';
 
@@ -13,15 +13,23 @@ GoogleSignin.configure({
 });
 
 export const GoogleLoginTest = () => {
+  const {data} = trpcQuery.getUser.useQuery(undefined, {enabled: false});
+  console.log('------');
+  console.log(data);
+  console.log('------');
   const handleLoginPress = async () => {
     //
     // GoogleSignin.
+    console.log(1);
     await GoogleSignin.signIn();
+    console.log(2);
     const token = await GoogleSignin.getTokens();
-    const response = (await trpc.createUser.mutate({
+    console.log(3);
+    const response = await trpc.createUser.mutate({
       type: 'google',
       accessToken: token.accessToken,
-    })) as {accessToken: string};
+    });
+
     authStorage.setToken(response.accessToken);
   };
 
@@ -31,12 +39,12 @@ export const GoogleLoginTest = () => {
   };
 
   const handleGetUserInfononAuth = async () => {
-    try {
-      const info = await trpc.getUsernonAuth.query();
-      console.log(info);
-    } catch (e) {
-      console.error(e);
-    }
+    // try {
+    //   const info = await trpc.getUsernonAuth.query();
+    //   console.log(info);
+    // } catch (e) {
+    //   console.error(e);
+    // }
   };
 
   return (

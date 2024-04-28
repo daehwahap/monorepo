@@ -23,7 +23,6 @@ export class TrpcService {
   trpc = initTRPC.context<typeof this.createContext>().create({
     errorFormatter(opts) {
       const { shape, error } = opts;
-      console.log(shape);
       return {
         ...shape,
         data: {

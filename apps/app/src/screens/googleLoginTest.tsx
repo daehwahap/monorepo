@@ -4,21 +4,26 @@ import {
 } from '@react-native-google-signin/google-signin';
 import React from 'react';
 import {Button, View} from 'react-native';
+import {trpc} from '../trpc';
+import {GOOGLE_AUTH_KEY} from '@env';
 
 GoogleSignin.configure({
-  iosClientId:
-    '67810102731-171m3q6smdkn63u9afjqk49l6ql1i1mi.apps.googleusercontent.com',
+  iosClientId: GOOGLE_AUTH_KEY,
 });
 
 export const GoogleLoginTest = () => {
   const handleLoginPress = async () => {
     //
     // GoogleSignin.
-    console.log('aaa');
-    GoogleSignin.signIn();
-    console.log('token', await GoogleSignin.getTokens());
-    console.log('currentUser', await GoogleSignin.getCurrentUser());
+    await GoogleSignin.signIn();
+    const token = await GoogleSignin.getTokens();
+    const response = await trpc.createUser.mutate({
+      type: 'google',
+      accessToken: token.accessToken,
+    });
+    console.log(response);
   };
+
   return (
     <View
       style={{

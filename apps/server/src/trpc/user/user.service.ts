@@ -1,27 +1,91 @@
 import { UserRepository } from './user.repository';
 import { Injectable } from '@nestjs/common';
 import { TrpcService } from '../trpc.service';
-import { z } from 'zod';
 import { OauthAccessTokenDTO } from './user.dto';
+import { HttpService } from '@nestjs/axios';
+import { catchError, firstValueFrom, noop } from 'rxjs';
+import { Profile } from 'passport-google-oauth20';
+import { User } from 'src/prisma/dto';
+import { Prisma } from '@prisma/client';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly trpcService: TrpcService,
     private readonly userRepository: UserRepository,
+    private readonly httpService: HttpService,
+    private readonly authService: AuthService,
   ) {}
 
-  createUser = this.trpcService.procedure
+  createOrGetUser = this.trpcService.procedure
     .input(OauthAccessTokenDTO)
     .mutation(async ({ input }) => {
-      
-
       // const signInUser = await this.userRepository.createUser(input);
+      if (input.type === 'google') {
+        return await this.googleLogin(input.accessToken);
+      } else {
+      }
     });
 
-  getUser = this.trpcService.authProcedure
-    .input(z.object({ aa: z.string() }))
+  getUser = this.trpcService
+    .authProcedure()
+    .input(noop)
     .query(() => {
       return this.userRepository.getUser();
     });
+
+  private async googleLogin(accessToken: string) {
+    const { data } = await firstValueFrom(
+      this.httpService
+        .get(
+          `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`,
+        )
+        .pipe(
+          catchError(() => {
+            throw 'An error happened!';
+          }),
+        ),
+    );
+
+    const userInfo = data as Profile['_json'];
+    console.log(userInfo);
+
+    try {
+      const checkGoogleUser = await this.userRepository.getGoogleUser({
+        sub: userInfo.sub,
+      });
+
+      if (!checkGoogleUser) {
+        // 구글 로그인
+        const newUser = await this.userRepository.createUser({
+          imageUrl: userInfo.profile,
+          name: userInfo.name,
+        });
+        await this.userRepository.createGoogleUser({
+          ...(userInfo as Omit<Prisma.GoogleProfileCreateInput, 'uid'>),
+          uid: newUser.id,
+        });
+
+        return this.authService.jwtSignIn(newUser as User);
+      }
+
+      const existUser = await this.userRepository.findUserById(
+        checkGoogleUser.uid,
+      );
+
+      return this.authService.jwtSignIn(existUser as User);
+    } catch (e) {
+      const newUser = await this.userRepository.createUser({
+        imageUrl: userInfo.profile,
+        name: userInfo.name,
+      });
+      await this.userRepository.createGoogleUser({
+        ...(userInfo as Omit<Prisma.GoogleProfileCreateInput, 'uid'>),
+        uid: newUser.id,
+      });
+
+      return this.authService.jwtSignIn(newUser as User);
+    }
+  }
 }

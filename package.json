@@ -7,8 +7,9 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "server": "pnpm -F server",
     "webview": "pnpm -F webview",
+    "server": "pnpm -F server",
+    "ser": "pnpm -F server",
     "app": "pnpm -F app"
   },
   "devDependencies": {

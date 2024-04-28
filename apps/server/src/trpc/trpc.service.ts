@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Req, UseGuards } from '@nestjs/common';
 import { TRPCError, initTRPC } from '@trpc/server';
-import * as trpcNext from '@trpc/server/adapters/next';
 import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 
 // Create your context based on the request object
 // Will be available as `ctx` in all your resolvers
@@ -29,7 +29,11 @@ export class TrpcService {
   });
 
   procedure = this.trpc.procedure;
-  authProcedure = this.procedure.use(this.auth);
+
+  @UseGuards(JwtAuthGuard)
+  authProcedure() {
+    return this.procedure.use(this.auth);
+  }
 
   router = this.trpc.router;
   mergeRouters = this.trpc.mergeRouters;

@@ -1,6 +1,6 @@
-import { UserService } from './user.service';
 import { Injectable } from '@nestjs/common';
 import { TrpcService } from '../trpc.service';
+import { UserService } from './user.service';
 
 @Injectable()
 export class UserController {
@@ -10,7 +10,7 @@ export class UserController {
   ) {}
 
   router = this.trpcService.router({
-    createUser: this.UserService.createUser,
+    createUser: this.UserService.createOrGetUser,
     getUser: this.UserService.getUser,
   });
 }

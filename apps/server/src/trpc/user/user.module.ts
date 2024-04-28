@@ -4,10 +4,26 @@ import { UserRepository } from './user.repository';
 import { TrpcModule } from '../trpc.module';
 import { TrpcService } from '../trpc.service';
 import { PrismaModule } from 'src/prisma/prisma.module';
+import { HttpModule } from '@nestjs/axios';
+import { AuthModule } from 'src/auth/auth.module';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
-  imports: [forwardRef(() => TrpcModule), PrismaModule],
-  providers: [UserService, UserRepository, TrpcService],
+  imports: [
+    forwardRef(() => TrpcModule),
+    forwardRef(() => PrismaModule),
+    HttpModule,
+    AuthModule,
+    JwtModule,
+  ],
+  providers: [
+    UserService,
+    UserRepository,
+    TrpcService,
+    AuthService,
+    JwtService,
+  ],
   exports: [UserService],
 })
 export class UserModule {}

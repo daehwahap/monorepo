@@ -1,24 +1,26 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, {useRef} from 'react';
+import {Text, View} from 'react-native';
+import {GoogleLoginTest} from './src/screens/googleLoginTest';
+import {trpcOption, trpcQuery} from './src/trpc';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
-import React from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
-
-import {WebViewTest} from './src/screens/WebViewTest';
-
-function App(): React.JSX.Element {
+const App = () => {
+  const queryClient = useRef(new QueryClient());
+  const trpcClient = useRef(trpcQuery.createClient(trpcOption));
   return (
-    <SafeAreaView>
-      <View style={{backgroundColor: 'blue', height: 100, width: 100}}>
-        <Text>asdfsadf</Text>
-      </View>
-      <WebViewTest />
-    </SafeAreaView>
+    <trpcQuery.Provider
+      client={trpcClient.current}
+      queryClient={queryClient.current}>
+      <QueryClientProvider client={queryClient.current}>
+        <View>
+          {/* Your app here */}
+          <View style={{marginTop: 100, backgroundColor: 'red'}} />
+          <Text>asdfsf</Text>
+          <GoogleLoginTest />
+        </View>
+      </QueryClientProvider>
+    </trpcQuery.Provider>
   );
-}
+};
 
 export default App;

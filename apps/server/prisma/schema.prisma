@@ -21,8 +21,22 @@ generator zod {
 
 model User {
   id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name  String
+  name      String   @default("")
+  imageUrl  String?
   createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  deletedAt DateTime? 
+}
+
+model GoogleProfile {
+  uid             String   @id
+  sub             String   @unique
+  name            String?
+  given_name      String?
+  family_name     String?
+  picture         String?
+  email           String?
+  email_verified  Boolean?
+  locale          String?
+
 }

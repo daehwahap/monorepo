@@ -26,12 +26,18 @@ importers:
       '@trpc/client':
         specifier: ^10.45.2
         version: 10.45.2(@trpc/server@10.45.2)
+      '@webview-bridge/react-native':
+        specifier: ^1.4.1
+        version: 1.4.1(react-native-webview@13.8.6)(react@18.2.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
       react-native:
         specifier: 0.74.0
         version: 0.74.0(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@types/react@18.2.79)(react@18.2.0)
+      react-native-webview:
+        specifier: ^13.8.6
+        version: 13.8.6(react-native@0.74.0)(react@18.2.0)
     devDependencies:
       '@babel/core':
         specifier: ^7.20.0
@@ -178,6 +184,15 @@ importers:
 
   apps/webview:
     dependencies:
+      '@repo/app':
+        specifier: workspace:^
+        version: link:../app
+      '@webview-bridge/react':
+        specifier: ^1.4.1
+        version: 1.4.1(@webview-bridge/web@1.4.1)(react@18.2.0)
+      '@webview-bridge/web':
+        specifier: ^1.4.1
+        version: 1.4.1
       next:
         specifier: ^14.1.1
         version: 14.2.3(react-dom@18.2.0)(react@18.2.0)
@@ -3729,6 +3744,35 @@ packages:
       '@webassemblyjs/ast': 1.12.1
       '@xtuc/long': 4.2.2
     dev: true
+
+  /@webview-bridge/react-native@1.4.1(react-native-webview@13.8.6)(react@18.2.0):
+    resolution: {integrity: sha512-W2N7uAeiLGMB3kj0Y0jDzPxGc5UCaPwsrm5RW6ZHaXhaeRGcmL5p7U9tifzF0kHaiEWo/1Mz+3Jszz2dn48sog==}
+    peerDependencies:
+      react: '*'
+      react-native-webview: '*'
+    dependencies:
+      react: 18.2.0
+      react-native-webview: 13.8.6(react-native@0.74.0)(react@18.2.0)
+      use-sync-external-store: 1.2.2(react@18.2.0)
+    dev: false
+
+  /@webview-bridge/react@1.4.1(@webview-bridge/web@1.4.1)(react@18.2.0):
+    resolution: {integrity: sha512-13ZFz1jqDyElVoJ0GYfHnMgjsrCxcQfozWTqjYxBpFChLCMdhOjxbIsIJ9h6jwKKfvIyMH8orlRpJCB5OrXEjQ==}
+    peerDependencies:
+      '@webview-bridge/web': '>=1.2.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      '@webview-bridge/web': 1.4.1
+      react: 18.2.0
+      use-sync-external-store: 1.2.2(react@18.2.0)
+    dev: false
+
+  /@webview-bridge/web@1.4.1:
+    resolution: {integrity: sha512-3J8LVUZGz+IRjrYGC/bKCWLHfrOVLmeRpVQqQN7NELAY7LHSSbDex1qldXLLLzEfeKPrHtOMTPfmvpfESfC8pA==}
+    dev: false
 
   /@xtuc/ieee754@1.2.0:
     resolution: {integrity: sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA==}
@@ -8340,6 +8384,18 @@ packages:
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
 
+  /react-native-webview@13.8.6(react-native@0.74.0)(react@18.2.0):
+    resolution: {integrity: sha512-jtZ9OgB2AN6rhDwto6dNL3PtOtl/SI4VN93pZEPbMLvRjqHfxiUrilGllL5fKAXq5Ry5FJyfUi82A4Ii8olZ7A==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      escape-string-regexp: 2.0.0
+      invariant: 2.2.4
+      react: 18.2.0
+      react-native: 0.74.0(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@types/react@18.2.79)(react@18.2.0)
+    dev: false
+
   /react-native@0.74.0(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@types/react@18.2.79)(react@18.2.0):
     resolution: {integrity: sha512-Vpp9WPmkCm4TUH5YDxwQhqktGVon/yLpjbTgjgLqup3GglOgWagYCX3MlmK1iksIcqtyMJHMEWa+UEzJ3G9T8w==}
     engines: {node: '>=18'}
@@ -9748,6 +9804,14 @@ packages:
     dependencies:
       punycode: 2.3.1
     dev: true
+
+  /use-sync-external-store@1.2.2(react@18.2.0):
+    resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}

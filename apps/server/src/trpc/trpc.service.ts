@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { TRPCError, initTRPC } from '@trpc/server';
-import * as trpcNext from '@trpc/server/adapters/next';
-import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
+import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
+import { AuthService } from 'src/auth/auth.service';
+import { ZodError } from 'zod';
 
 // Create your context based on the request object
 // Will be available as `ctx` in all your resolvers
@@ -9,22 +10,43 @@ import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
 
 @Injectable()
 export class TrpcService {
-  private createContext = async ({ req }: FetchCreateContextFnOptions) => {
-    if (!req.headers.get('authenticate')) {
-      throw new TRPCError({ code: 'UNAUTHORIZED' });
-    }
-    // 여기서 디코딩하고 유저 받아주는 로직
-    console.log(req);
-    const user = { userId: 'aa' };
+  constructor(private readonly authService: AuthService) {}
+  createContext = async (opts: CreateNextContextOptions) => {
+    const { req, res } = opts;
+    const user = this.authService.decodeJWT(
+      req.headers['authorization']?.replace('Bearer ', '') || '',
+    );
+
     return user;
   };
 
-  trpc = initTRPC.context<typeof this.createContext>().create();
-  auth = this.trpc.middleware(async ({ next, ctx }) => {
-    console.log(ctx);
-    // if (!ctx.userId) {
-    //   throw new TRPCError({ code: 'UNAUTHORIZED' })
-    // }
+  trpc = initTRPC.context<typeof this.createContext>().create({
+    errorFormatter(opts) {
+      const { shape, error } = opts;
+      console.log(shape);
+      return {
+        ...shape,
+        data: {
+          ...shape.data,
+          zodError:
+            error.code === 'BAD_REQUEST' && error.cause instanceof ZodError
+              ? error.cause.flatten()
+              : null,
+        },
+      };
+    },
+  });
+
+  auth = this.trpc.middleware(async (input) => {
+    const { next, ctx } = input;
+    if (!ctx) {
+      throw new TRPCError({
+        message: 'unAuthorization error',
+        code: 'UNAUTHORIZED',
+        cause: 'jwt decode error',
+      });
+    }
+
     return next({ ctx });
   });
 

@@ -1,8 +1,13 @@
 "use client";
 
-import React from "react";
+import { webBridge } from "../WebPostMessageBridge";
 
 const MainPage = () => {
+  const handle = async () => {
+    const message = await webBridge.getMessage();
+    console.log(message);
+  };
+
   return (
     <div>
       <div style={{ height: 100 }} />
@@ -10,12 +15,12 @@ const MainPage = () => {
       <button
         style={{ padding: 32 }}
         onClick={() => {
+          handle();
           console.log("aa");
         }}
       >
         버튼 브릿지 테스트용
       </button>
-      <div style={{ height: 100, background: "red" }} />
     </div>
   );
 };

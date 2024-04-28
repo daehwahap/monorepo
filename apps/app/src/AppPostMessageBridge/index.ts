@@ -5,10 +5,8 @@ export const appBridge = bridge(({get, set}) => ({
   async getMessage() {
     return "Hello, I'm native";
   },
-  async bridgeTest(url: string) {
-    console.log('---------');
-    console.log(url);
-    console.log('---------');
+  async bridgeTest(data: string) {
+    console.log(data);
     return 'aaaaaa';
   },
 }));

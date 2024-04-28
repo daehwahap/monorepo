@@ -3,6 +3,7 @@ import {Text, View} from 'react-native';
 import {GoogleLoginTest} from './src/screens/googleLoginTest';
 import {trpcOption, trpcQuery} from './src/trpc';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {WebView} from './src/AppPostMessageBridge';
 
 const App = () => {
   const queryClient = useRef(new QueryClient());
@@ -13,11 +14,13 @@ const App = () => {
       queryClient={queryClient.current}>
       <QueryClientProvider client={queryClient.current}>
         <View>
-          {/* Your app here */}
-          <View style={{marginTop: 100, backgroundColor: 'red'}} />
-          <Text>asdfsf</Text>
           <GoogleLoginTest />
         </View>
+        <WebView
+          source={{
+            uri: 'http://localhost:3000',
+          }}
+        />
       </QueryClientProvider>
     </trpcQuery.Provider>
   );

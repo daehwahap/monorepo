@@ -232,9 +232,6 @@ importers:
 
   apps/webview:
     dependencies:
-      '@repo/app':
-        specifier: workspace:^
-        version: link:../app
       '@webview-bridge/react':
         specifier: ^1.4.1
         version: 1.4.1(@webview-bridge/web@1.4.1)(react@18.2.0)
@@ -254,6 +251,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: ^14.1.1
         version: 14.2.3
+      '@repo/app':
+        specifier: workspace:^
+        version: link:../app
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config

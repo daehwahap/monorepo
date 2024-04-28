@@ -1,5 +1,5 @@
 import {Text, View} from 'react-native';
-import {WebView} from '../postMessageBridge';
+import {WebView} from '../AppPostMessageBridge';
 
 export function WebViewTest(): JSX.Element {
   return (

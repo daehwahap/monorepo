@@ -4,13 +4,13 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { SECRET } from './auth.constants';
+import { JWT_SECRET } from './auth.constants';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     JwtModule.register({
-      secretOrPrivateKey: SECRET,
+      secretOrPrivateKey: JWT_SECRET,
       signOptions: { expiresIn: '1y' },
     }),
     PrismaModule,

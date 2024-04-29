@@ -20,9 +20,10 @@ export class UserService {
 
   createOrGetUser = this.trpcService.procedure
     .input(OauthAccessTokenDTO)
-    .mutation(async ({ input }): Promise<{ accessToken: string }> => {
-      console.log('ccc');
-      return await this.googleLogin(input.accessToken);
+    .mutation(async ({ input }) => {
+      if (input.type === 'google') {
+        return await this.googleLogin(input.accessToken);
+      }
     });
 
   getUsernonAuth = this.trpcService.procedure.input(noop).query(() => {
@@ -37,11 +38,11 @@ export class UserService {
       return await this.userRepository.findUserById(id);
     });
 
-  private async googleLogin(accessToken: string) {
+  private async googleLogin(_accessToken: string) {
     const { data } = await firstValueFrom(
       this.httpService
         .get(
-          `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`,
+          `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${_accessToken}`,
         )
         .pipe(
           catchError(() => {
@@ -52,33 +53,12 @@ export class UserService {
 
     const userInfo = data as Profile['_json'];
 
-    try {
-      const checkGoogleUser = await this.userRepository.getGoogleUser({
-        sub: userInfo.sub,
-      });
+    const checkGoogleUser = await this.userRepository.getGoogleUser({
+      sub: userInfo.sub,
+    });
 
-      if (!checkGoogleUser) {
-        // 구글 로그인
-        const newUser = await this.userRepository.createUser({
-          imageUrl: userInfo.profile,
-          name: userInfo.name,
-        });
-        await this.userRepository.createGoogleUser({
-          ...(userInfo as Omit<Prisma.GoogleProfileCreateInput, 'uid'>),
-          uid: newUser.id,
-        });
-
-        const accessToken = await this.authService.jwtSignIn(newUser as User);
-        return { accessToken };
-      }
-
-      const existUser = await this.userRepository.findUserById(
-        checkGoogleUser.uid,
-      );
-      const accessToken = await this.authService.jwtSignIn(existUser as User);
-
-      return { accessToken };
-    } catch (e) {
+    if (!checkGoogleUser) {
+      // 구글 로그인
       const newUser = await this.userRepository.createUser({
         imageUrl: userInfo.profile,
         name: userInfo.name,
@@ -89,8 +69,14 @@ export class UserService {
       });
 
       const accessToken = await this.authService.jwtSignIn(newUser as User);
-
       return { accessToken };
     }
+
+    const existUser = await this.userRepository.findUserById(
+      checkGoogleUser.uid,
+    );
+    const accessToken = await this.authService.jwtSignIn(existUser as User);
+
+    return { accessToken };
   }
 }

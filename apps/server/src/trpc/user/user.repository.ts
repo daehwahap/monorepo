@@ -7,7 +7,7 @@ export class UserRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async getGoogleUser(data: Prisma.GoogleProfileWhereUniqueInput) {
-    return await this.prismaService.googleProfile.findFirstOrThrow({
+    return await this.prismaService.googleProfile.findFirst({
       where: { sub: data.sub },
     });
   }

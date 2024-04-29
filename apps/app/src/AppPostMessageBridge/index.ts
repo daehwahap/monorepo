@@ -1,7 +1,7 @@
 import {bridge, createWebView} from '@webview-bridge/react-native';
 
 // Register functions in the bridge object in your React Native code
-export const appBridge = bridge(({get, set}) => ({
+export const appBridge = bridge({
   async getMessage() {
     return "Hello, I'm native";
   },
@@ -9,7 +9,7 @@ export const appBridge = bridge(({get, set}) => ({
     console.log(data);
     return 'aaaaaa';
   },
-}));
+});
 
 export const {WebView} = createWebView({
   bridge: appBridge,
@@ -20,4 +20,3 @@ export const {WebView} = createWebView({
 });
 
 export type AppBridge = typeof appBridge;
-

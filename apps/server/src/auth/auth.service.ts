@@ -2,7 +2,7 @@ import { User } from './../prisma/dto/index';
 import { HttpException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { SECRET } from './auth.constants';
+import { JWT_SECRET } from './auth.constants';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +20,7 @@ export class AuthService {
     }
 
     return await this.jwtService.signAsync(user, {
-      secret: SECRET,
+      secret: JWT_SECRET,
     });
   }
 

@@ -20,3 +20,4 @@ export const {WebView} = createWebView({
 });
 
 export type AppBridge = typeof appBridge;
+

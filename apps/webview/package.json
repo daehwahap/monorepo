@@ -9,11 +9,14 @@
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
+    "@webview-bridge/react": "^1.4.1",
+    "@webview-bridge/web": "^1.4.1",
     "next": "^14.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@repo/app": "workspace:^",
     "@next/eslint-plugin-next": "^14.1.1",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",

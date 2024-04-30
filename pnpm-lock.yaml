@@ -38,6 +38,9 @@ importers:
       '@trpc/server':
         specifier: ^10.45.2
         version: 10.45.2
+      '@webview-bridge/react-native':
+        specifier: ^1.4.1
+        version: 1.4.1(react-native-webview@13.8.6)(react@18.2.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -50,6 +53,9 @@ importers:
       react-native-mmkv:
         specifier: ^2.12.2
         version: 2.12.2(react-native@0.74.0)(react@18.2.0)
+      react-native-webview:
+        specifier: ^13.8.6
+        version: 13.8.6(react-native@0.74.0)(react@18.2.0)
       rxjs:
         specifier: ^7.8.1
         version: 7.8.1
@@ -226,6 +232,12 @@ importers:
 
   apps/webview:
     dependencies:
+      '@webview-bridge/react':
+        specifier: ^1.4.1
+        version: 1.4.1(@webview-bridge/web@1.4.1)(react@18.2.0)
+      '@webview-bridge/web':
+        specifier: ^1.4.1
+        version: 1.4.1
       next:
         specifier: ^14.1.1
         version: 14.2.3(react-dom@18.2.0)(react@18.2.0)
@@ -239,6 +251,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: ^14.1.1
         version: 14.2.3
+      '@repo/app':
+        specifier: workspace:^
+        version: link:../app
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -3137,6 +3152,13 @@ packages:
     resolution: {integrity: sha512-VRLSGzik+Unrup6BsouBeHsf4d1hOEgYWTm/7Nmw1sXoN1+tRly/Gy/po3yeahnP4jfnQWWAhQAqcNfH7ngOkA==}
     dependencies:
       '@types/node': 20.12.7
+    dev: false
+
+  /@types/jsonwebtoken@9.0.6:
+    resolution: {integrity: sha512-/5hndP5dCjloafCXns6SZyESp3Ldq7YjH3zwzwczYnjxIT0Fqzk5ROSYVGfFyczIue7IUEj8hkvLbPoLQ18vQw==}
+    dependencies:
+      '@types/node': 20.12.7
+    dev: true
 
   /@types/methods@1.1.4:
     resolution: {integrity: sha512-ymXWVrDiCxTBE3+RIrrP533E70eA+9qu7zdWoHuOmGujkYtzf4HQF96b8nwHLqhuf4ykX61IGRIB38CC6/sImQ==}
@@ -3184,7 +3206,7 @@ packages:
   /@types/passport-jwt@4.0.1:
     resolution: {integrity: sha512-Y0Ykz6nWP4jpxgEUYq8NoVZeCQPo1ZndJLfapI249g1jHChvRfZRO/LS3tqu26YgAS/laI1qx98sYGz0IalRXQ==}
     dependencies:
-      '@types/jsonwebtoken': 9.0.5
+      '@types/jsonwebtoken': 9.0.6
       '@types/passport-strategy': 0.2.38
     dev: true
 
@@ -3923,6 +3945,35 @@ packages:
       '@webassemblyjs/ast': 1.12.1
       '@xtuc/long': 4.2.2
     dev: true
+
+  /@webview-bridge/react-native@1.4.1(react-native-webview@13.8.6)(react@18.2.0):
+    resolution: {integrity: sha512-W2N7uAeiLGMB3kj0Y0jDzPxGc5UCaPwsrm5RW6ZHaXhaeRGcmL5p7U9tifzF0kHaiEWo/1Mz+3Jszz2dn48sog==}
+    peerDependencies:
+      react: '*'
+      react-native-webview: '*'
+    dependencies:
+      react: 18.2.0
+      react-native-webview: 13.8.6(react-native@0.74.0)(react@18.2.0)
+      use-sync-external-store: 1.2.2(react@18.2.0)
+    dev: false
+
+  /@webview-bridge/react@1.4.1(@webview-bridge/web@1.4.1)(react@18.2.0):
+    resolution: {integrity: sha512-13ZFz1jqDyElVoJ0GYfHnMgjsrCxcQfozWTqjYxBpFChLCMdhOjxbIsIJ9h6jwKKfvIyMH8orlRpJCB5OrXEjQ==}
+    peerDependencies:
+      '@webview-bridge/web': '>=1.2.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      '@webview-bridge/web': 1.4.1
+      react: 18.2.0
+      use-sync-external-store: 1.2.2(react@18.2.0)
+    dev: false
+
+  /@webview-bridge/web@1.4.1:
+    resolution: {integrity: sha512-3J8LVUZGz+IRjrYGC/bKCWLHfrOVLmeRpVQqQN7NELAY7LHSSbDex1qldXLLLzEfeKPrHtOMTPfmvpfESfC8pA==}
+    dev: false
 
   /@xtuc/ieee754@1.2.0:
     resolution: {integrity: sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA==}
@@ -8672,6 +8723,18 @@ packages:
       react: '*'
       react-native: '>=0.71.0'
     dependencies:
+      react: 18.2.0
+      react-native: 0.74.0(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@types/react@18.2.79)(react@18.2.0)
+    dev: false
+
+  /react-native-webview@13.8.6(react-native@0.74.0)(react@18.2.0):
+    resolution: {integrity: sha512-jtZ9OgB2AN6rhDwto6dNL3PtOtl/SI4VN93pZEPbMLvRjqHfxiUrilGllL5fKAXq5Ry5FJyfUi82A4Ii8olZ7A==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      escape-string-regexp: 2.0.0
+      invariant: 2.2.4
       react: 18.2.0
       react-native: 0.74.0(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@types/react@18.2.79)(react@18.2.0)
     dev: false

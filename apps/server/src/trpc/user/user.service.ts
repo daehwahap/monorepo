@@ -34,6 +34,7 @@ export class UserService {
     .input(noop)
     .query(async ({ ctx }) => {
       const { id } = ctx as User;
+      console.log('aaa');
       return await this.userRepository.findUserById(id);
     });
 

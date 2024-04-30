@@ -18,14 +18,10 @@ export const GoogleLoginTest = () => {
   console.log(data);
   console.log('------');
   const handleLoginPress = async () => {
-    //
-    // GoogleSignin.
-    console.log(1);
     await GoogleSignin.signIn();
     console.log(2);
     const token = await GoogleSignin.getTokens();
-    console.log(3);
-    const response = await trpc.createUser.mutate({
+    const response = await trpc.getAccessToken.query({
       type: 'google',
       accessToken: token.accessToken,
     });
@@ -36,15 +32,6 @@ export const GoogleLoginTest = () => {
   const handleGetUserInfo = async () => {
     const info = await trpc.getUser.query();
     console.log(info);
-  };
-
-  const handleGetUserInfononAuth = async () => {
-    // try {
-    //   const info = await trpc.getUsernonAuth.query();
-    //   console.log(info);
-    // } catch (e) {
-    //   console.error(e);
-    // }
   };
 
   return (
@@ -63,10 +50,6 @@ export const GoogleLoginTest = () => {
       <View style={{height: 100}} />
       <Button title="유저정보 가져오기 버튼" onPress={handleGetUserInfo} />
       <View style={{height: 100}} />
-      <Button
-        title="유저정보 가져오기 버튼 non auth"
-        onPress={handleGetUserInfononAuth}
-      />
     </View>
   );
 };

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 
 @Injectable()
 export class UserRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getGoogleUser(data: Prisma.GoogleProfileWhereUniqueInput) {
+  async findGoogleUser(data: Prisma.GoogleProfileWhereUniqueInput) {
     return await this.prismaService.googleProfile.findFirst({
       where: { sub: data.sub },
     });
@@ -22,11 +22,7 @@ export class UserRepository {
     });
   }
 
-  async getUser() {
-    return this.prismaService.user.findMany();
-  }
-
-  async findUserById(id: string) {
+  async findUserById(id: User['id']) {
     return this.prismaService.user.findUnique({ where: { id } });
   }
 }

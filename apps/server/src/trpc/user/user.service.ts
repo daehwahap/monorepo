@@ -1,9 +1,7 @@
 import { UserRepository } from './user.repository';
 import { Injectable } from '@nestjs/common';
-import { TrpcService } from '../trpc.service';
-import { OauthAccessTokenDTO } from './user.dto';
 import { HttpService } from '@nestjs/axios';
-import { catchError, firstValueFrom, noop } from 'rxjs';
+import { catchError, firstValueFrom } from 'rxjs';
 import { Profile } from 'passport-google-oauth20';
 import { User } from 'src/prisma/dto';
 import { Prisma } from '@prisma/client';
@@ -12,33 +10,16 @@ import { AuthService } from 'src/auth/auth.service';
 @Injectable()
 export class UserService {
   constructor(
-    private readonly trpcService: TrpcService,
     private readonly userRepository: UserRepository,
     private readonly httpService: HttpService,
     private readonly authService: AuthService,
   ) {}
 
-  createOrGetUser = this.trpcService.procedure
-    .input(OauthAccessTokenDTO)
-    .mutation(async ({ input }) => {
-      if (input.type === 'google') {
-        return await this.googleLogin(input.accessToken);
-      }
-    });
+  async getUser(userId: User['id']) {
+    return this.userRepository.findUserById(userId);
+  }
 
-  getUsernonAuth = this.trpcService.procedure.input(noop).query(() => {
-    return this.userRepository.getUser();
-  });
-
-  getUser = this.trpcService.authProcedure
-    .input(noop)
-    .query(async ({ ctx }) => {
-      const { id } = ctx as User;
-      console.log('aaa');
-      return await this.userRepository.findUserById(id);
-    });
-
-  private async googleLogin(_accessToken: string) {
+  async googleLogin(_accessToken: string) {
     const { data } = await firstValueFrom(
       this.httpService
         .get(
@@ -53,7 +34,7 @@ export class UserService {
 
     const userInfo = data as Profile['_json'];
 
-    const checkGoogleUser = await this.userRepository.getGoogleUser({
+    const checkGoogleUser = await this.userRepository.findGoogleUser({
       sub: userInfo.sub,
     });
 

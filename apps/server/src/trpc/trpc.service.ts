@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { TRPCError, initTRPC } from '@trpc/server';
-import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
-import { AuthService } from 'src/auth/auth.service';
-import { ZodError } from 'zod';
+import { Injectable } from '@nestjs/common'
+import { TRPCError, initTRPC } from '@trpc/server'
+import type { CreateNextContextOptions } from '@trpc/server/adapters/next'
+import { AuthService } from 'src/auth/auth.service'
+import { ZodError } from 'zod'
+import * as Sentry from '@sentry/node'
 
 // Create your context based on the request object
 // Will be available as `ctx` in all your resolvers
@@ -12,17 +13,25 @@ import { ZodError } from 'zod';
 export class TrpcService {
   constructor(private readonly authService: AuthService) {}
   createContext = async (opts: CreateNextContextOptions) => {
-    const { req, res } = opts;
+    const { req } = opts
     const user = this.authService.decodeJWT(
       req.headers['authorization']?.replace('Bearer ', '') || '',
-    );
+    )
 
-    return user;
-  };
+    return user
+  }
 
   trpc = initTRPC.context<typeof this.createContext>().create({
     errorFormatter(opts) {
-      const { shape, error } = opts;
+      const { shape, error, ctx, path, input } = opts
+
+      Sentry.setContext('ctx', {
+        ...ctx,
+        path,
+        input,
+      })
+      Sentry.captureException(error)
+
       return {
         ...shape,
         data: {
@@ -32,26 +41,27 @@ export class TrpcService {
               ? error.cause.flatten()
               : null,
         },
-      };
+      }
     },
-  });
+  })
 
   auth = this.trpc.middleware(async (input) => {
-    const { next, ctx } = input;
+    const { next, ctx } = input
+
     if (!ctx) {
       throw new TRPCError({
         message: 'unAuthorization error',
         code: 'UNAUTHORIZED',
         cause: 'jwt decode error',
-      });
+      })
     }
 
-    return next({ ctx });
-  });
+    return next({ ctx })
+  })
 
-  procedure = this.trpc.procedure;
-  authProcedure = this.procedure.use(this.auth);
+  procedure = this.trpc.procedure
+  authProcedure = this.procedure.use(this.auth)
 
-  router = this.trpc.router;
-  mergeRouters = this.trpc.mergeRouters;
+  router = this.trpc.router
+  mergeRouters = this.trpc.mergeRouters
 }

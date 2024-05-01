@@ -1,5 +1,5 @@
 {
-  "name": "@repo/webview",
+  "name": "@pinit/webview",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
+    "@pinit/app": "workspace:^",
     "@webview-bridge/react": "^1.4.1",
     "@webview-bridge/web": "^1.4.1",
     "next": "^14.1.1",
@@ -16,15 +17,10 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@repo/app": "workspace:^",
-    "@next/eslint-plugin-next": "^14.1.1",
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
-    "@types/eslint": "^8.56.5",
+    "@pinit/eslint-config": "workspace:*",
+    "@pinit/typescript-config": "workspace:*",
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.61",
-    "@types/react-dom": "^18.2.19",
-    "eslint": "^8.57.0",
-    "typescript": "^5.3.3"
+    "@types/react-dom": "^18.2.19"
   }
 }

@@ -12,12 +12,15 @@
     "A": "pnpm -F app"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@pinit/typescript-config": "workspace:*",
     "prettier": "^3.2.5",
-    "turbo": "latest"
+    "turbo": "latest",
+    "typescript": "5.4.3"
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "eslint": "8.57.0"
   }
 }

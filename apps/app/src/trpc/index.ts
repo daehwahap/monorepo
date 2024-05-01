@@ -1,7 +1,7 @@
-import {createTRPCProxyClient} from '@trpc/client';
-import {AppRouter} from '@repo/server/src/trpc/trpc.router';
-import {createTRPCReact, httpBatchLink} from '@trpc/react-query';
-import authStorage from '../storage/Auth';
+import { createTRPCProxyClient } from '@trpc/client'
+import { AppRouter } from '@pinit/server/src/trpc/trpc.router'
+import { createTRPCReact, httpBatchLink } from '@trpc/react-query'
+import authStorage from '../storage/Auth'
 
 export const trpcOption = {
   links: [
@@ -10,14 +10,14 @@ export const trpcOption = {
       headers() {
         return {
           Authorization: `Bearer ${authStorage.getToken()}`,
-        };
+        }
       },
     }),
   ],
-};
+}
 
-export const trpcQuery = createTRPCReact<AppRouter>();
+export const trpcQuery = createTRPCReact<AppRouter>()
 // react-query 같이쓰게하면 해당 api가 deprecated되는데
 // 사용상에는 지장이 없어서 사용.
 // 후에 버전올릴 때 이슈 있으면 대응 필요
-export const trpc = createTRPCProxyClient<AppRouter>(trpcOption);
+export const trpc = createTRPCProxyClient<AppRouter>(trpcOption)

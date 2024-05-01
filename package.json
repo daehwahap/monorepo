@@ -21,7 +21,6 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@webview-bridge/react-native": "^1.4.1",
     "eslint": "8.57.0"
   }
 }

@@ -7,9 +7,9 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "server": "pnpm -F server",
-    "webview": "pnpm -F webview",
-    "app": "pnpm -F app"
+    "W": "pnpm -F webview",
+    "S": "pnpm -F server",
+    "A": "pnpm -F app"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+#import <GoogleSignIn/GIDSignIn.h>
 
 #import <React/RCTBundleURLProvider.h>
 

@@ -1,9 +1,6 @@
 import { UserController } from './user/user.controller';
 import { INestApplication, Injectable } from '@nestjs/common';
 import * as trpcExpress from '@trpc/server/adapters/express';
-import { NodeHTTPHandlerOptions } from '@trpc/server/dist/adapters/node-http';
-import express from 'express';
-import { AnyRouter } from '@trpc/server';
 import { TrpcService } from './trpc.service';
 
 @Injectable()
@@ -20,11 +17,12 @@ export class TrpcRouter {
       `/trpc`,
       trpcExpress.createExpressMiddleware({
         router: this.mergeRouter,
-      } as NodeHTTPHandlerOptions<
-        AnyRouter,
-        express.Request,
-        express.Response
-      >),
+        createContext: this.trpcService.createContext as any,
+        onError(opts) {
+          const { error, type, path, input, ctx, req } = opts;
+          console.error('Error:', error);
+        },
+      }),
     );
   }
 }

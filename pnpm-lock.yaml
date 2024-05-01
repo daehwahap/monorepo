@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@webview-bridge/react-native':
+        specifier: ^1.4.1
+        version: 1.4.2(react-native-webview@13.8.7(react-native@0.74.0(@babel/core@7.24.4)(@babel/preset-env@7.24.4(@babel/core@7.24.4))(@types/react@18.2.61)(react@18.2.0))(react@18.2.0))(react@18.2.0)
       eslint:
         specifier: 8.57.0
         version: 8.57.0
@@ -45,9 +48,6 @@ importers:
       '@trpc/server':
         specifier: ^10.45.2
         version: 10.45.2
-      '@webview-bridge/react-native':
-        specifier: ^1.4.1
-        version: 1.4.2(react-native-webview@13.8.7(react-native@0.74.0(@babel/core@7.24.4)(@babel/preset-env@7.24.4(@babel/core@7.24.4))(@types/react@18.2.61)(react@18.2.0))(react@18.2.0))(react@18.2.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -223,7 +223,7 @@ importers:
         version: 1.4.2
       next:
         specifier: ^14.1.1
-        version: 14.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 14.1.1(@babel/core@7.24.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -10254,7 +10254,7 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  next@14.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  next@14.1.1(@babel/core@7.24.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@next/env': 14.1.1
       '@swc/helpers': 0.5.2
@@ -10264,7 +10264,7 @@ snapshots:
       postcss: 8.4.31
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      styled-jsx: 5.1.1(react@18.2.0)
+      styled-jsx: 5.1.1(@babel/core@7.24.4)(react@18.2.0)
     optionalDependencies:
       '@next/swc-darwin-arm64': 14.1.1
       '@next/swc-darwin-x64': 14.1.1
@@ -11145,10 +11145,12 @@ snapshots:
 
   strnum@1.0.5: {}
 
-  styled-jsx@5.1.1(react@18.2.0):
+  styled-jsx@5.1.1(@babel/core@7.24.4)(react@18.2.0):
     dependencies:
       client-only: 0.0.1
       react: 18.2.0
+    optionalDependencies:
+      '@babel/core': 7.24.4
 
   sudo-prompt@9.2.1: {}
 

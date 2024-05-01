@@ -1,0 +1,12 @@
+addReviewers: true
+
+addAssignees: author
+
+reviewers:
+  - 11t518s
+  - yoon-junseo
+
+skipKeywords:
+  - wip
+
+numberOfReviewers: 0

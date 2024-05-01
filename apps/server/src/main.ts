@@ -7,10 +7,12 @@ import { SentryFilter } from 'src/sentry/sentry.filter'
 import { nodeProfilingIntegration } from '@sentry/profiling-node'
 
 async function bootstrap() {
-  Sentry.init({
-    dsn: process.env.SENTRY_DSN,
-    integrations: [nodeProfilingIntegration()],
-  })
+  if (process.env.NODE_ENV === 'production') {
+    Sentry.init({
+      dsn: process.env.SENTRY_DSN,
+      integrations: [nodeProfilingIntegration()],
+    })
+  }
 
   const app = await NestFactory.create(AppModule)
 

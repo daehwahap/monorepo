@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@pinit/app": "workspace:^",
+    "@pinit/shared": "workspace:^",
     "@webview-bridge/react": "^1.4.2",
     "@webview-bridge/web": "^1.4.2",
     "next": "^14.1.1",

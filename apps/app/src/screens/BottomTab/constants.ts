@@ -2,8 +2,8 @@ import { FunctionComponent } from 'react'
 
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
 
-import { FirstScreen } from './First'
-import { SecondScreen } from './Second'
+import { First } from './First'
+import { Second } from './Second'
 
 type BottomTabParams = {
   name: string
@@ -11,7 +11,7 @@ type BottomTabParams = {
   options?: BottomTabNavigationOptions
 }
 
-export const BOTTOM_TAB_LIST: BottomTabParams[] = [
-  { name: 'First', component: FirstScreen },
-  { name: 'Second', component: SecondScreen },
+export const BOTTOM_TAB_LIST = [
+  { name: 'First', component: First, options: undefined },
+  { name: 'Second', component: Second, options: undefined },
 ] as const

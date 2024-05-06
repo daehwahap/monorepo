@@ -1,34 +1,17 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { AllBottomTabProps } from '.'
+import { useAppRouter } from '../../shared/hooks/useAppRouter'
+import { AllScreenType } from '../type'
+import { BOTTOM_TAP_ROUTE_TYPE } from './type'
 
-type TabBarProps = BottomTabBarProps
-
-const BOTTOM_TAB_UI_INFOS: Record<
-  keyof AllBottomTabProps,
-  {
-    label: string
-    iconName: string
-  }
-> = {
-  First: {
-    iconName: 'book',
-    label: '홈',
-  },
-  Second: {
-    iconName: 'person',
-    label: '내 정보',
-  },
-}
-
-const TabBar = (props: TabBarProps) => {
+const TabBar = (props: BottomTabBarProps) => {
   const { bottom } = useSafeAreaInsets()
 
-  const { navigate } = useNavigationService()
+  const { navigate } = useAppRouter()
 
-  const handlePress = (routeName: keyof AllBottomTabProps) => {
-    return navigate(routeName)
+  const handlePress = (routeName: keyof BOTTOM_TAP_ROUTE_TYPE) => {
+    return navigate('BottomTab', { screen: routeName, params: {} })
   }
 
   return (
@@ -36,7 +19,7 @@ const TabBar = (props: TabBarProps) => {
       {props.state.routes.map((route, index) => {
         const isFocused = props.state.index === index
 
-        const routeName = route.name as keyof AllBottomTabProps
+        const routeName = route.name as keyof BOTTOM_TAP_ROUTE_TYPE
 
         return (
           <TouchableOpacity

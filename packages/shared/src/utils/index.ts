@@ -1,2 +1,2 @@
 export * from './create-context'
-export * from './global-components'
+export * from './global-component'

@@ -1,6 +1,6 @@
 'use client'
 
-import { webBridge } from './provider'
+import { webBridge } from './_provider'
 
 const MainPage = () => {
   const handle = async () => {

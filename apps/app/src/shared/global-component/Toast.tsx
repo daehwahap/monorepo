@@ -1,4 +1,4 @@
-import { createPortal, useGlobalComponentContext } from '@pinit/shared/utils'
+import { createPortal, useGlobalComponentContext } from '@pinit/shared'
 import { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 

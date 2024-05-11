@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import GlobalComponentProvider from './src/shared/global-component'
 import { NavigationContainer } from '@react-navigation/native'
 import RootNativeStackNavigation from './src/screens/Root'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const App = () => {

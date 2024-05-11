@@ -4,8 +4,8 @@ import { StyleSheet, Text, View } from 'react-native'
 
 type ToastProps = {
   text: string
-  position: 'top' | 'middle' | 'bottom'
-  duration: number
+  position?: 'top' | 'middle' | 'bottom'
+  duration?: number
 }
 
 export const Toast = createPortal(({ text, position = 'top', duration = 2000 }: ToastProps) => {
@@ -25,5 +25,5 @@ export const Toast = createPortal(({ text, position = 'top', duration = 2000 }: 
 })
 
 const styles = StyleSheet.create({
-  aa: { backgroundColor: 'red', width: 100, height: 100 },
+  aa: { backgroundColor: 'blue', width: 200, height: 200 },
 })

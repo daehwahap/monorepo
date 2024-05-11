@@ -1,6 +1,6 @@
 'use client'
 
-import { createPortal, useGlobalComponentContext } from '@pinit/shared/utils'
+import { createPortal, useGlobalComponentContext } from '@pinit/shared/src/utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect } from 'react'
 

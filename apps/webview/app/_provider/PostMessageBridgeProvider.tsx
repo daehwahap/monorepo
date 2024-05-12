@@ -1,6 +1,8 @@
+'use client'
+
 import { linkBridge } from '@webview-bridge/web'
 import { createLinkBridgeProvider } from '@webview-bridge/react'
-import type { AppBridge } from '@pinit/app/src/AppPostMessageBridge'
+import type { AppBridge } from '@pinit/app/src/shared/AppPostMessageBridge'
 
 export const webBridge = linkBridge<AppBridge>({
   onReady: async () => {

@@ -3,6 +3,7 @@ import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { AWS_ENV } from 'src/trpc/aws/aws.constants'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { TRPCError } from '@trpc/server'
+import { TIME_S } from '@pinit/shared/src/constants'
 
 @Injectable()
 export class AwsService {
@@ -36,7 +37,7 @@ export class AwsService {
       })
 
       const signedUrl = await getSignedUrl(this.s3Client, command, {
-        expiresIn: 60,
+        expiresIn: TIME_S['1분'],
       })
 
       return signedUrl

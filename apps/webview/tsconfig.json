@@ -1,6 +1,10 @@
 {
   "extends": "@pinit/typescript-config/nextjs.json",
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/shared/*": ["./shared/*"],
+    },
     "plugins": [
       {
         "name": "next"

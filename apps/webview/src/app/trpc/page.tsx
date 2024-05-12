@@ -1,6 +1,6 @@
 'use client'
 
-import { trpc } from '../../src/shared/trpc'
+import { trpc } from '../../shared/trpc'
 
 const TrpcPage = async () => {
   const response = await trpc.hello.query({ name: 'trpc server component test' })

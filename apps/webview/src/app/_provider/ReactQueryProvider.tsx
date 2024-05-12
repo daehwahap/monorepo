@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useRef } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { trpcOption, trpcQuery } from '../../src/shared/trpc'
+import { trpcOption, trpcQuery } from '@/shared/trpc'
+
 
 const ReactQueryProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useRef(new QueryClient())

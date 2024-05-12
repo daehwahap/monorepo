@@ -29,5 +29,8 @@ module.exports = {
       2,
       { namedComponents: ['arrow-function', 'function-declaration'] },
     ],
+    'import/extensions': [
+      'off',
+    ],
   },
 }

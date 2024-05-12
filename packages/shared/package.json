@@ -4,8 +4,7 @@
   "private": true,
   "packageManager": "pnpm@9.0.4",
   "exports": {
-    "./src/utils": "./src/utils/index.ts",
-    ".": "./index.ts"
+    "./src/utils": "./src/utils/index.ts"
   },
   "scripts": {
     "lint": "eslint ."

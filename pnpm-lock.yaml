@@ -96,9 +96,15 @@ importers:
       '@pinit/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      '@react-native-community/cli-platform-android':
+        specifier: ^13.6.6
+        version: 13.6.6
       '@react-native/babel-preset':
         specifier: 0.74.81
         version: 0.74.81(@babel/core@7.24.4)(@babel/preset-env@7.24.4)
+      '@react-native/gradle-plugin':
+        specifier: ^0.74.83
+        version: 0.74.83
       '@react-native/metro-config':
         specifier: 0.74.81
         version: 0.74.81(@babel/core@7.24.4)(@babel/preset-env@7.24.4)

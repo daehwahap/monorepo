@@ -23,7 +23,7 @@ class MainActivity : ReactActivity() {
   override fun createReactActivityDelegate(): ReactActivityDelegate =
       DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
 
-/**
+  /**
    * React Navigation 추가에 따른 대응
    */
   override fun onCreate(savedInstanceState: Bundle?) {

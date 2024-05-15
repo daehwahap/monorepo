@@ -11,6 +11,8 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.soloader.SoLoader
 
+import com.pinit.dev.BuildConfig
+
 class MainApplication : Application(), ReactApplication {
 
   override val reactNativeHost: ReactNativeHost =
@@ -37,7 +39,11 @@ class MainApplication : Application(), ReactApplication {
     SoLoader.init(this, false)
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       // If you opted-in for the New Architecture, we load the native entry point for this app.
-      load(bridgelessEnabled = true)
+
+
+      // new arch 올릴때 변경 필요
+      // load(bridgelessEnabled = true)
+      load()
     }
   }
 }

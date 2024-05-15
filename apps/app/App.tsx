@@ -5,13 +5,21 @@ import GlobalComponentProvider from './src/shared/global-component'
 import { NavigationContainer } from '@react-navigation/native'
 import RootNativeStackNavigation from './src/screens/Root'
 import { Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 const App = () => {
   const queryClient = useRef(new QueryClient())
   const trpcClient = useRef(trpcQuery.createClient(trpcOption))
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: 'green' }}>
+      <Text>aaaaaaaaaa</Text>
+      <Text>aaaaaaaaaa</Text>
+      <Text>aaaaaaaaaa</Text>
+      <Text>aaaaaaaaaa</Text>
+      <Text>aaaaaaaaaa</Text>
+      <Text>aaaaaaaaaa</Text>
+      <Text>aaaaaaaaaa</Text>
+      <Text>aaaaaaaaaa</Text>
+
       <trpcQuery.Provider client={trpcClient.current} queryClient={queryClient.current}>
         <QueryClientProvider client={queryClient.current}>
           <NavigationContainer>

@@ -63,5 +63,4 @@ export class TrpcService {
   authProcedure = this.procedure.use(this.auth)
 
   router = this.trpc.router
-  mergeRouters = this.trpc.mergeRouters
 }

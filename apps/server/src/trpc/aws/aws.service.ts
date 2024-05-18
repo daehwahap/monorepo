@@ -10,6 +10,13 @@ export class AwsService {
   private readonly s3Client: S3Client
 
   constructor() {
+    if (Object.values(AWS_ENV).includes('')) {
+      throw new TRPCError({
+        message: 'has empty env',
+        code: 'INTERNAL_SERVER_ERROR',
+      })
+    }
+
     this.s3Client = new S3Client({
       region: AWS_ENV.AWS_REGION,
       credentials: {

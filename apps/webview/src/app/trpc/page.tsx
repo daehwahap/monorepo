@@ -3,7 +3,7 @@
 import { trpc } from '../../shared/trpc'
 
 const TrpcPage = async () => {
-  const response = await trpc.hello.query({ name: 'trpc server component test' })
+  const response = await trpc.user.hello.query({ name: 'trpc server component test' })
 
   return (
     <div>

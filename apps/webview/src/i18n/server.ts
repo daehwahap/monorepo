@@ -14,15 +14,15 @@ const initI18next = async (lang: LanguageTypes, ns: string) => {
 }
 
 export async function createTranslation({
-  locale,
+  language,
   ns = defaultNS,
 }: {
-  locale: LanguageTypes
+  language: LanguageTypes
   ns?: string
 }) {
-  const i18nextInstance = await initI18next(locale, ns)
+  const i18nextInstance = await initI18next(language, ns)
 
   return {
-    t: i18nextInstance.getFixedT(locale, Array.isArray(ns) ? ns[0] : ns),
+    t: i18nextInstance.getFixedT(language, Array.isArray(ns) ? ns[0] : ns),
   }
 }

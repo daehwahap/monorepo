@@ -4,8 +4,8 @@ import i18next from 'i18next'
 import { LanguageTypes } from '@pinit/shared/src/utils'
 import { useTranslation } from '@/i18n/client'
 
-export default function Home({ params: { locale } }: { params: { locale: LanguageTypes } }) {
-  const { t } = useTranslation({ locale })
+export default function Home({ params: { language } }: { params: { language: LanguageTypes } }) {
+  const { t } = useTranslation({ language })
 
   return (
     <div className="test-container">

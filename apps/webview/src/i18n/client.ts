@@ -29,22 +29,28 @@ i18next
     preload: runsOnServerSide ? languages : [],
   })
 
-export function useTranslation({ locale, ns = defaultNS }: { locale: LanguageTypes; ns?: string }) {
+export function useTranslation({
+  language,
+  ns = defaultNS,
+}: {
+  language: LanguageTypes
+  ns?: string
+}) {
   const translator = useTransAlias(ns)
   const { i18n } = translator
 
   // Run content is being rendered on server side
-  if (runsOnServerSide && locale) {
-    // && i18n.resolvedLanguage !== locale) {
-    i18n.changeLanguage(locale)
+  if (runsOnServerSide && language) {
+    // && i18n.resolvedLanguage !== language,) {
+    i18n.changeLanguage(language)
   }
   useEffect(() => {
-    if (!locale) return
-    if (runsOnServerSide && locale) {
+    if (!language) return
+    if (runsOnServerSide && language) {
       return
     }
-    i18n.changeLanguage(locale)
-  }, [locale, i18n])
+    i18n.changeLanguage(language)
+  }, [language, i18n])
 
   return translator
 }

@@ -11,7 +11,6 @@ const MainPage = () => (
       style={{ padding: 32 }}
       onClick={() => {
         Toast.show({ text: 'aaaaaaaaa' })
-        console.log('aa')
       }}
     >
       버튼 브릿지 테스트용

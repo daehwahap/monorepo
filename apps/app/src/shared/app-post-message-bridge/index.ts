@@ -6,7 +6,6 @@ export const appBridge = bridge({
     return "Hello, I'm native";
   },
   async bridgeTest(data: string) {
-    console.log(data);
     return 'aaaaaa';
   },
 });

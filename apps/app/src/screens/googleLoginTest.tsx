@@ -11,12 +11,8 @@ GoogleSignin.configure({
 
 export const GoogleLoginTest = () => {
   const { data } = trpcQuery.user.getUser.useQuery(undefined, { enabled: false })
-  console.log('------')
-  console.log(data)
-  console.log('------')
   const handleLoginPress = async () => {
     await GoogleSignin.signIn()
-    console.log(2)
     const token = await GoogleSignin.getTokens()
     const response = await trpc.user.getAccessToken.query({
       type: 'google',
@@ -28,7 +24,6 @@ export const GoogleLoginTest = () => {
 
   const handleGetUserInfo = async () => {
     const info = await trpc.user.getUser.query()
-    console.log(info)
   }
 
   return (

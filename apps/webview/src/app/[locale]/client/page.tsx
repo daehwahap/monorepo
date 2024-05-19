@@ -11,8 +11,8 @@ export default function Home({ params: { locale } }: { params: { locale: LocaleT
     <div className="test-container">
       client
       {/* 둘 다 가능 */}
-      <h1>{t('i18nTest')}</h1>
-      <h1>{i18next.t('i18nTest')}</h1>
+      <h1>{t('i18nTest', { name: { ko: '준서야', en: 'hey junseo' } })}</h1>
+      <h1>{i18next.t('i18nTest2', { name: '준서야' })}</h1>
       client
     </div>
   )

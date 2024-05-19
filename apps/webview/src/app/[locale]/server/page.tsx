@@ -7,7 +7,7 @@ export default async function Home({ params: { locale } }: { params: { locale: L
   return (
     <div className="test-container">
       server
-      <h1>{t('i18nTest')}</h1>
+      <h1>{t('i18nTest', { name: { ko: '준서야', en: 'hey junseo' } })}</h1>
       server
     </div>
   )

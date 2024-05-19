@@ -7,7 +7,7 @@ export function getOptions(language = defaultLanguage, ns = defaultNS) {
   return {
     // debug: true, // Set to true to see console logs
     supportedLngs: languages,
-    fallbackLng: defaultLanguage,
+    fallbackLng: language,
     lng: language,
     fallbackNS: defaultNS,
     defaultNS,

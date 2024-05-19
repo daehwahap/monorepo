@@ -1,8 +1,7 @@
 import { createInstance } from 'i18next'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import { initReactI18next } from 'react-i18next/initReactI18next'
-import { LOCALE_DATA } from '@pinit/shared/src/utils'
-import { defaultNS, getOptions, LocaleTypes } from './settings'
+import { LOCALE_DATA, defaultNS, getOptions, LocaleTypes } from '@pinit/shared/src/utils'
 
 const initI18next = async (lang: LocaleTypes, ns: string) => {
   const i18nInstance = createInstance()

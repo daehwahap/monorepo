@@ -1,13 +1,13 @@
 import { createInstance } from 'i18next'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import { initReactI18next } from 'react-i18next/initReactI18next'
-import { LOCALE_DATA, defaultNS, getOptions, LanguageTypes } from '@pinit/shared/src/utils'
+import { LANGUAGE_DATA, defaultNS, getOptions, LanguageTypes } from '@pinit/shared/src/utils'
 
 const initI18next = async (lang: LanguageTypes, ns: string) => {
   const i18nInstance = createInstance()
   await i18nInstance
     .use(initReactI18next)
-    .use(resourcesToBackend(LOCALE_DATA))
+    .use(resourcesToBackend(LANGUAGE_DATA))
     .init(getOptions(lang, ns))
 
   return i18nInstance

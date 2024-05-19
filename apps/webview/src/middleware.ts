@@ -1,5 +1,5 @@
+import { defaultLanguage, languages } from '@pinit/shared/src/utils'
 import { NextResponse, NextRequest } from 'next/server'
-import { fallbackLng, locales } from './i18n/settings'
 
 // eslint-disable-next-line consistent-return
 export function middleware(request: NextRequest) {
@@ -7,18 +7,18 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Check if the default locale is in the pathname
-  if (pathname.startsWith(`/${fallbackLng}/`) || pathname === `/${fallbackLng}`) {
+  if (pathname.startsWith(`/${defaultLanguage}/`) || pathname === `/${defaultLanguage}`) {
     // e.g. incoming request is /en/about
     // The new URL is now /about
     return NextResponse.redirect(
       new URL(
-        pathname.replace(`/${fallbackLng}`, pathname === `/${fallbackLng}` ? '/' : ''),
+        pathname.replace(`/${defaultLanguage}`, pathname === `/${defaultLanguage}` ? '/' : ''),
         request.url,
       ),
     )
   }
 
-  const pathnameIsMissingLocale = locales.every(
+  const pathnameIsMissingLocale = languages.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`,
   )
 
@@ -28,7 +28,7 @@ export function middleware(request: NextRequest) {
 
     // e.g. incoming request is /about
     // Tell Next.js it should pretend it's /en/about
-    return NextResponse.rewrite(new URL(`/${fallbackLng}${pathname}`, request.url))
+    return NextResponse.rewrite(new URL(`/${defaultLanguage}${pathname}`, request.url))
   }
 }
 

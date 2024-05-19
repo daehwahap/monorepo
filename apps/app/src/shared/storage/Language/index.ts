@@ -3,14 +3,14 @@ import MMKVWrapper from '..'
 import { STORAGE_KEY } from '../constants'
 
 class LanguageStroage extends MMKVWrapper<LanguageTypes> {
-  setLocale(item: LanguageTypes) {
+  setLanguage(item: LanguageTypes) {
     this.setItem(item)
   }
-  getToken() {
+  getLanguage() {
     return this.getItem() ?? defaultLanguage
   }
 }
 
-const localeStorage = new LanguageStroage(STORAGE_KEY.language)
+const languageStorage = new LanguageStroage(STORAGE_KEY.language)
 
-export default localeStorage
+export default languageStorage

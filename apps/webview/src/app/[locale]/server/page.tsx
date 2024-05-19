@@ -1,7 +1,7 @@
+import { LanguageTypes } from '@pinit/shared/src/utils'
 import { createTranslation } from '@/i18n/server'
-import { LocaleTypes } from '@/i18n/settings'
 
-export default async function Home({ params: { locale } }: { params: { locale: LocaleTypes } }) {
+export default async function Home({ params: { locale } }: { params: { locale: LanguageTypes } }) {
   const { t } = await createTranslation({ locale })
 
   return (

@@ -1,4 +1,4 @@
 export const STORAGE_KEY = {
   auth: 'auth',
-  locale: 'locale',
+  language: 'langugage',
 } as const

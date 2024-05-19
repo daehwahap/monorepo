@@ -1,10 +1,10 @@
 'use client'
 
 import i18next from 'i18next'
+import { LanguageTypes } from '@pinit/shared/src/utils'
 import { useTranslation } from '@/i18n/client'
-import { LocaleTypes } from '@/i18n/settings'
 
-export default function Home({ params: { locale } }: { params: { locale: LocaleTypes } }) {
+export default function Home({ params: { locale } }: { params: { locale: LanguageTypes } }) {
   const { t } = useTranslation({ locale })
 
   return (

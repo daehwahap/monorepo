@@ -6,9 +6,9 @@ import { initReactI18next, useTranslation as useTransAlias } from 'react-i18next
 import resourcesToBackend from 'i18next-resources-to-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import {
-  type LocaleTypes,
+  type LanguageTypes,
   getOptions,
-  locales,
+  languages,
   defaultNS,
   LOCALE_DATA,
 } from '@pinit/shared/src/utils'
@@ -26,10 +26,10 @@ i18next
     detection: {
       order: ['path'],
     },
-    preload: runsOnServerSide ? locales : [],
+    preload: runsOnServerSide ? languages : [],
   })
 
-export function useTranslation({ locale, ns = defaultNS }: { locale: LocaleTypes; ns?: string }) {
+export function useTranslation({ locale, ns = defaultNS }: { locale: LanguageTypes; ns?: string }) {
   const translator = useTransAlias(ns)
   const { i18n } = translator
 

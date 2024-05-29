@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "782986802877",
+    "project_id": "pinit-67ccd",
+    "storage_bucket": "pinit-67ccd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782986802877:android:ec829d02f58d18ce1329d4",
+        "android_client_info": {
+          "package_name": "com.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCERL7dzPifLWlLBGawuVkYSs4tck5ZCfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

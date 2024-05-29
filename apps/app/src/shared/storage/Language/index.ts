@@ -1,4 +1,4 @@
-import { LanguageTypes } from '@pinit/shared/src/utils'
+import { LanguageTypes } from '@pinit/shared/src/constants'
 import MMKVWrapper from '..'
 import { STORAGE_KEY } from '../constants'
 import { NativeModules, Platform } from 'react-native'

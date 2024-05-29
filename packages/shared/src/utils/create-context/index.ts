@@ -1,5 +1,3 @@
-'use client'
-
 import { createContext as createReactContext, useContext as useReactContext } from 'react'
 
 export interface CreateContextOptions<T> {

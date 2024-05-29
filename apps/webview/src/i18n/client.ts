@@ -11,7 +11,7 @@ import {
   languages,
   defaultNS,
   LANGUAGE_DATA,
-} from '@pinit/shared/src/utils'
+} from '@pinit/shared/src/constants'
 
 const runsOnServerSide = typeof window === 'undefined'
 
@@ -44,9 +44,10 @@ export function useTranslation({
     // && i18n.resolvedLanguage !== language,) {
     i18n.changeLanguage(language)
   }
+
   useEffect(() => {
     if (!language) return
-    if (runsOnServerSide && language) {
+    if (runsOnServerSide) {
       return
     }
     i18n.changeLanguage(language)

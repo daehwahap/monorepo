@@ -1,4 +1,4 @@
-import { LanguageTypes } from '@pinit/shared/src/utils'
+import { LanguageTypes } from '@pinit/shared/src/constants'
 import { createTranslation } from '@/i18n/server'
 
 export default async function Home({

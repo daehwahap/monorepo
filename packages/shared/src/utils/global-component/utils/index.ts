@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, createElement, createRef } from 'react'
 import { GlobalComponentContextType } from '../types'
 import { globalComponentManager } from '../manager'

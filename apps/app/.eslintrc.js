@@ -5,6 +5,7 @@ module.exports = {
     project: true,
   },
   rules: {
+    'import/prefer-default-export': 'off',
     'import/order': [
       'error',
       {

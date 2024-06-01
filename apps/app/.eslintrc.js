@@ -5,6 +5,8 @@ module.exports = {
     project: true,
   },
   rules: {
+    'class-methods-use-this': 'off',
+
     'import/prefer-default-export': 'off',
     'import/order': [
       'error',

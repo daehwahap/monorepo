@@ -4,7 +4,7 @@ import { ExampleProps } from '@/screens/RootNativeStack/Example'
 
 import { BOTTOM_TAP_ROUTE_TYPE } from '../BottomTab/type'
 
-export type NATIVE_STACK_LIST_TYPE = {
+export type NativeStackList = {
   BottomTab: NavigatorScreenParams<BOTTOM_TAP_ROUTE_TYPE>
   LanguageChange: undefined
   SignIn: undefined

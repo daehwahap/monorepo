@@ -8,6 +8,10 @@ import BottomTabNavigation from './BottomTab'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { GOOGLE_AUTH_KEY } from '@env'
 
+import BottomTabNavigation from '@/screens/BottomTab'
+import { NATIVE_STACK_LIST } from '@/screens/RootNativeStack/constants'
+import { NATIVE_STACK_LIST_TYPE } from '@/screens/RootNativeStack/type'
+
 const RootNativeStack = createNativeStackNavigator<NATIVE_STACK_LIST_TYPE>()
 
 const defaultOptions: NativeStackNavigationOptions = {

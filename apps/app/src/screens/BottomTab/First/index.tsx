@@ -2,9 +2,13 @@ import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 're
 import { useAppRouter } from '../../../shared/hooks/useAppRouter'
 import { Header } from '../../../shared/components/custom-header'
 
+import { languageUtils } from '@/i18n/index'
+import { Toast } from '@/shared/global-component/Toast'
+import { useAppRouter } from '@/shared/hooks/useAppRouter'
+
 export type FirstProps = undefined
 
-export const First = () => {
+export function First() {
   const { navigate } = useAppRouter()
 
   return (

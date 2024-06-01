@@ -1,6 +1,7 @@
-import { createPortal, useGlobalComponentContext } from '@pinit/shared/src/utils'
 import { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+
+import { createPortal, useGlobalComponentContext } from '@pinit/shared/src/utils'
 
 type ToastProps = {
   text: string

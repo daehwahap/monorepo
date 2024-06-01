@@ -1,11 +1,12 @@
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useAppRouter } from '../../shared/hooks/useAppRouter'
-import { AllScreenType } from '../type'
-import { BOTTOM_TAP_ROUTE_TYPE } from './type'
 
-const TabBar = (props: BottomTabBarProps) => {
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
+
+import { BOTTOM_TAP_ROUTE_TYPE } from '@/screens/BottomTab/type'
+import { useAppRouter } from '@/shared/hooks/useAppRouter'
+
+function TabBar(props: BottomTabBarProps) {
   const { bottom } = useSafeAreaInsets()
 
   const { navigate } = useAppRouter()

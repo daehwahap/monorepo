@@ -6,8 +6,6 @@ import { languageUtils } from '@/i18n/index'
 import { Toast } from '@/shared/global-component/Toast'
 import { useAppRouter } from '@/shared/hooks/useAppRouter'
 
-export type FirstProps = undefined
-
 export function First() {
   const { navigate } = useAppRouter()
 

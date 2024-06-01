@@ -3,7 +3,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 
-import { BOTTOM_TAP_ROUTE_TYPE } from '@/screens/BottomTab/type'
+import { BottomTabRoute } from '@/screens/BottomTab/type'
 import { useAppRouter } from '@/shared/hooks/useAppRouter'
 
 function TabBar(props: BottomTabBarProps) {
@@ -20,7 +20,7 @@ function TabBar(props: BottomTabBarProps) {
       {props.state.routes.map((route, index) => {
         const isFocused = props.state.index === index
 
-        const routeName = route.name as keyof BOTTOM_TAP_ROUTE_TYPE
+        const routeName = route.name as keyof BottomTabRoute
 
         return (
           <TouchableOpacity

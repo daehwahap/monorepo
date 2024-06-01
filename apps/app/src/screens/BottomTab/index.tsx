@@ -2,9 +2,9 @@ import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-nav
 
 import { BOTTOM_TAB_LIST } from './constants'
 import TabBar from './TabBar'
-import { BOTTOM_TAP_ROUTE_TYPE } from './type'
+import { BottomTabRoute } from './type'
 
-const BottomTab = createBottomTabNavigator<BOTTOM_TAP_ROUTE_TYPE>()
+const BottomTab = createBottomTabNavigator<BottomTabRoute>()
 
 const defaultOptions: BottomTabNavigationOptions = {
   headerShown: false,

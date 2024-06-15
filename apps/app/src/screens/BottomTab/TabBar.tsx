@@ -21,6 +21,8 @@ const TabBar = (props: BottomTabBarProps) => {
 
         const routeName = route.name as keyof BOTTOM_TAP_ROUTE_TYPE
 
+        
+
         return (
           <TouchableOpacity
             key={route.key}

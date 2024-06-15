@@ -1,5 +1,6 @@
 #import "AppDelegate.h"
 #import <GoogleSignIn/GIDSignIn.h>
+#import <RNFBCrashlytics/RNFBCrashlyticsNativeHelper.h>
 
 #import <React/RCTBundleURLProvider.h>
 
@@ -21,10 +22,10 @@
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
-  return [self bundleURL];
+  return [self getBundleURL];
 }
 
-- (NSURL *)bundleURL
+- (NSURL *)getBundleURL
 {
 #if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];

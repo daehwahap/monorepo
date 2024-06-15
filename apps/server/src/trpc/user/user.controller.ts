@@ -21,6 +21,7 @@ export class UserController {
       .input(OauthAccessTokenDTO)
       .query(async ({ input }) => {
         if (input.type === 'google') {
+          console.log(input)
           return await this.userService.googleLogin(input.accessToken)
         }
 

@@ -1,48 +1,69 @@
-import { Button, Text, View } from 'react-native'
+import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useAppRouter } from '../../../shared/hooks/useAppRouter'
-import { Toast } from '../../../shared/global-component/Toast'
-import { useTranslation } from 'react-i18next'
-import i18next from 'i18next'
-import { languageUtils } from '../../../i18n'
+import { Header } from '../../../shared/components/custom-header'
 
 export type FirstProps = undefined
 
 export const First = () => {
   const { navigate } = useAppRouter()
-  const { t } = useTranslation()
 
   return (
-    <View>
-      <Button onPress={() => navigate('Example', { test: '야호~~~~~' })} title="example로~~" />
+    <View style={styles.container}>
+      <Header />
 
-      <Text>{t('i18nTest', { name: { ko: '준서야', en: 'hey junseo' } })}</Text>
-      <Text>{i18next.t('i18nTest', { name: { ko: '준서야', en: 'hey junseo' } })}</Text>
-      <Button
-        onPress={() => {
-          Toast.show({ text: 'aaaaaa' })
-        }}
-        title="global compnents"
-      />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            navigate('SignIn')
+          }}
+          style={styles.button}
+        >
+          <Text>회원가입 테스트하러가기</Text>
+        </TouchableOpacity>
 
-      <Button
-        onPress={() => {
-          languageUtils.changeLanguage('ko')
-        }}
-        title="한국어로 변경"
-      />
+        <TouchableOpacity
+          onPress={() => {
+            navigate('ShareCode')
+          }}
+          style={styles.button}
+        >
+          <Text>초대코드 공유하러 가기</Text>
+        </TouchableOpacity>
 
-      <Button
-        onPress={() => {
-          languageUtils.changeLanguage('en')
-        }}
-        title="영어로 변경"
-      />
-      <Button
-        onPress={() => {
-          languageUtils.getLanguage()
-        }}
-        title="저장된 언어 가져오기"
-      />
+        <TouchableOpacity
+          onPress={() => {
+            navigate('AcceptInvite')
+          }}
+          style={styles.button}
+        >
+          <Text>초대코드 받고 들어온 유저가 승인받으러가 가기</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigate('LanguageChange')
+          }}
+          style={styles.button}
+        >
+          <Text>언어 교환 테스트하러가기</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {},
+
+  buttonContainer: {
+    gap: 12,
+    paddingVertical: 24,
+    flex: 1,
+  },
+  button: {
+    backgroundColor: 'gray',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})

@@ -6,6 +6,7 @@ import authStorage from '../../../shared/storage/Auth'
 
 export const SignIn = () => {
   const handleLoginPress = async () => {
+    // TODO bongsu TODO error TODO 에러핸들링 해야함
     await GoogleSignin.signIn()
     const token = await GoogleSignin.getTokens()
     const response = await trpc.user.getAccessToken.query({

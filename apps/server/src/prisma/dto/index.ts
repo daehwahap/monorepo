@@ -12,13 +12,20 @@ import type { Prisma } from '@prisma/client';
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','name','imageUrl','createdAt','updatedAt','deletedAt']);
+export const UserScalarFieldEnumSchema = z.enum(['name','createdAt','imageUrl','deletedAt','updatedAt','uid','type']);
 
 export const GoogleProfileScalarFieldEnumSchema = z.enum(['uid','sub','name','given_name','family_name','picture','email','email_verified','locale']);
+
+export const InviteTierScalarFieldEnumSchema = z.enum(['tier','availableAmount']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const NullsOrderSchema = z.enum(['first','last']);
+
+export const TypeSchema = z.enum(['User','Admin']);
+
+export type TypeType = `${z.infer<typeof TypeSchema>}`
+
 /////////////////////////////////////////
 // MODELS
 /////////////////////////////////////////
@@ -28,12 +35,13 @@ export const NullsOrderSchema = z.enum(['first','last']);
 /////////////////////////////////////////
 
 export const UserSchema = z.object({
-  id: z.string().uuid(),
+  type: TypeSchema,
   name: z.string(),
-  imageUrl: z.string().nullable(),
   createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date(),
+  imageUrl: z.string().nullable(),
   deletedAt: z.coerce.date().nullable(),
+  updatedAt: z.coerce.date(),
+  uid: z.string(),
 })
 
 export type User = z.infer<typeof UserSchema>
@@ -57,6 +65,17 @@ export const GoogleProfileSchema = z.object({
 export type GoogleProfile = z.infer<typeof GoogleProfileSchema>
 
 /////////////////////////////////////////
+// INVITE TIER SCHEMA
+/////////////////////////////////////////
+
+export const InviteTierSchema = z.object({
+  tier: z.string(),
+  availableAmount: z.number().int(),
+})
+
+export type InviteTier = z.infer<typeof InviteTierSchema>
+
+/////////////////////////////////////////
 // SELECT & INCLUDE
 /////////////////////////////////////////
 
@@ -64,12 +83,13 @@ export type GoogleProfile = z.infer<typeof GoogleProfileSchema>
 //------------------------------------------------------
 
 export const UserSelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
-  id: z.boolean().optional(),
   name: z.boolean().optional(),
-  imageUrl: z.boolean().optional(),
   createdAt: z.boolean().optional(),
-  updatedAt: z.boolean().optional(),
+  imageUrl: z.boolean().optional(),
   deletedAt: z.boolean().optional(),
+  updatedAt: z.boolean().optional(),
+  uid: z.boolean().optional(),
+  type: z.boolean().optional(),
 }).strict()
 
 // GOOGLE PROFILE
@@ -87,6 +107,14 @@ export const GoogleProfileSelectSchema: z.ZodType<Prisma.GoogleProfileSelect> = 
   locale: z.boolean().optional(),
 }).strict()
 
+// INVITE TIER
+//------------------------------------------------------
+
+export const InviteTierSelectSchema: z.ZodType<Prisma.InviteTierSelect> = z.object({
+  tier: z.boolean().optional(),
+  availableAmount: z.boolean().optional(),
+}).strict()
+
 
 /////////////////////////////////////////
 // INPUT TYPES
@@ -96,45 +124,49 @@ export const UserWhereInputSchema: z.ZodType<Prisma.UserWhereInput> = z.object({
   AND: z.union([ z.lazy(() => UserWhereInputSchema),z.lazy(() => UserWhereInputSchema).array() ]).optional(),
   OR: z.lazy(() => UserWhereInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => UserWhereInputSchema),z.lazy(() => UserWhereInputSchema).array() ]).optional(),
-  id: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
-  imageUrl: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  imageUrl: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   deletedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
+  updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  uid: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  type: z.union([ z.lazy(() => EnumTypeFilterSchema),z.lazy(() => TypeSchema) ]).optional(),
 }).strict();
 
 export const UserOrderByWithRelationInputSchema: z.ZodType<Prisma.UserOrderByWithRelationInput> = z.object({
-  id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
-  imageUrl: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
-  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+  imageUrl: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   deletedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+  uid: z.lazy(() => SortOrderSchema).optional(),
+  type: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const UserWhereUniqueInputSchema: z.ZodType<Prisma.UserWhereUniqueInput> = z.object({
-  id: z.string().uuid()
+  uid: z.string()
 })
 .and(z.object({
-  id: z.string().uuid().optional(),
+  uid: z.string().optional(),
   AND: z.union([ z.lazy(() => UserWhereInputSchema),z.lazy(() => UserWhereInputSchema).array() ]).optional(),
   OR: z.lazy(() => UserWhereInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => UserWhereInputSchema),z.lazy(() => UserWhereInputSchema).array() ]).optional(),
   name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
-  imageUrl: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  imageUrl: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   deletedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
+  updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  type: z.union([ z.lazy(() => EnumTypeFilterSchema),z.lazy(() => TypeSchema) ]).optional(),
 }).strict());
 
 export const UserOrderByWithAggregationInputSchema: z.ZodType<Prisma.UserOrderByWithAggregationInput> = z.object({
-  id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
-  imageUrl: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
-  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+  imageUrl: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   deletedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+  uid: z.lazy(() => SortOrderSchema).optional(),
+  type: z.lazy(() => SortOrderSchema).optional(),
   _count: z.lazy(() => UserCountOrderByAggregateInputSchema).optional(),
   _max: z.lazy(() => UserMaxOrderByAggregateInputSchema).optional(),
   _min: z.lazy(() => UserMinOrderByAggregateInputSchema).optional()
@@ -144,12 +176,13 @@ export const UserScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.UserScal
   AND: z.union([ z.lazy(() => UserScalarWhereWithAggregatesInputSchema),z.lazy(() => UserScalarWhereWithAggregatesInputSchema).array() ]).optional(),
   OR: z.lazy(() => UserScalarWhereWithAggregatesInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => UserScalarWhereWithAggregatesInputSchema),z.lazy(() => UserScalarWhereWithAggregatesInputSchema).array() ]).optional(),
-  id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   name: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
-  imageUrl: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
-  updatedAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
+  imageUrl: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   deletedAt: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
+  updatedAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
+  uid: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  type: z.union([ z.lazy(() => EnumTypeWithAggregatesFilterSchema),z.lazy(() => TypeSchema) ]).optional(),
 }).strict();
 
 export const GoogleProfileWhereInputSchema: z.ZodType<Prisma.GoogleProfileWhereInput> = z.object({
@@ -236,67 +269,116 @@ export const GoogleProfileScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma
   locale: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
 }).strict();
 
+export const InviteTierWhereInputSchema: z.ZodType<Prisma.InviteTierWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => InviteTierWhereInputSchema),z.lazy(() => InviteTierWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => InviteTierWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => InviteTierWhereInputSchema),z.lazy(() => InviteTierWhereInputSchema).array() ]).optional(),
+  tier: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  availableAmount: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
+}).strict();
+
+export const InviteTierOrderByWithRelationInputSchema: z.ZodType<Prisma.InviteTierOrderByWithRelationInput> = z.object({
+  tier: z.lazy(() => SortOrderSchema).optional(),
+  availableAmount: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const InviteTierWhereUniqueInputSchema: z.ZodType<Prisma.InviteTierWhereUniqueInput> = z.object({
+  tier: z.string()
+})
+.and(z.object({
+  tier: z.string().optional(),
+  AND: z.union([ z.lazy(() => InviteTierWhereInputSchema),z.lazy(() => InviteTierWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => InviteTierWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => InviteTierWhereInputSchema),z.lazy(() => InviteTierWhereInputSchema).array() ]).optional(),
+  availableAmount: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
+}).strict());
+
+export const InviteTierOrderByWithAggregationInputSchema: z.ZodType<Prisma.InviteTierOrderByWithAggregationInput> = z.object({
+  tier: z.lazy(() => SortOrderSchema).optional(),
+  availableAmount: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => InviteTierCountOrderByAggregateInputSchema).optional(),
+  _avg: z.lazy(() => InviteTierAvgOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => InviteTierMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => InviteTierMinOrderByAggregateInputSchema).optional(),
+  _sum: z.lazy(() => InviteTierSumOrderByAggregateInputSchema).optional()
+}).strict();
+
+export const InviteTierScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.InviteTierScalarWhereWithAggregatesInput> = z.object({
+  AND: z.union([ z.lazy(() => InviteTierScalarWhereWithAggregatesInputSchema),z.lazy(() => InviteTierScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => InviteTierScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => InviteTierScalarWhereWithAggregatesInputSchema),z.lazy(() => InviteTierScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  tier: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  availableAmount: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
+}).strict();
+
 export const UserCreateInputSchema: z.ZodType<Prisma.UserCreateInput> = z.object({
-  id: z.string().uuid().optional(),
   name: z.string().optional(),
-  imageUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
+  imageUrl: z.string().optional().nullable(),
+  deletedAt: z.coerce.date().optional().nullable(),
   updatedAt: z.coerce.date().optional(),
-  deletedAt: z.coerce.date().optional().nullable()
+  uid: z.string(),
+  type: z.lazy(() => TypeSchema).optional()
 }).strict();
 
 export const UserUncheckedCreateInputSchema: z.ZodType<Prisma.UserUncheckedCreateInput> = z.object({
-  id: z.string().uuid().optional(),
   name: z.string().optional(),
-  imageUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
+  imageUrl: z.string().optional().nullable(),
+  deletedAt: z.coerce.date().optional().nullable(),
   updatedAt: z.coerce.date().optional(),
-  deletedAt: z.coerce.date().optional().nullable()
+  uid: z.string(),
+  type: z.lazy(() => TypeSchema).optional()
 }).strict();
 
 export const UserUpdateInputSchema: z.ZodType<Prisma.UserUpdateInput> = z.object({
-  id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  imageUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  imageUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  uid: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  type: z.union([ z.lazy(() => TypeSchema),z.lazy(() => EnumTypeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
 export const UserUncheckedUpdateInputSchema: z.ZodType<Prisma.UserUncheckedUpdateInput> = z.object({
-  id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  imageUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  imageUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  uid: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  type: z.union([ z.lazy(() => TypeSchema),z.lazy(() => EnumTypeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
 export const UserCreateManyInputSchema: z.ZodType<Prisma.UserCreateManyInput> = z.object({
-  id: z.string().uuid().optional(),
   name: z.string().optional(),
-  imageUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
+  imageUrl: z.string().optional().nullable(),
+  deletedAt: z.coerce.date().optional().nullable(),
   updatedAt: z.coerce.date().optional(),
-  deletedAt: z.coerce.date().optional().nullable()
+  uid: z.string(),
+  type: z.lazy(() => TypeSchema).optional()
 }).strict();
 
 export const UserUpdateManyMutationInputSchema: z.ZodType<Prisma.UserUpdateManyMutationInput> = z.object({
-  id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  imageUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  imageUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  uid: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  type: z.union([ z.lazy(() => TypeSchema),z.lazy(() => EnumTypeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
 export const UserUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserUncheckedUpdateManyInput> = z.object({
-  id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  imageUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  imageUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  uid: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  type: z.union([ z.lazy(() => TypeSchema),z.lazy(() => EnumTypeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
 export const GoogleProfileCreateInputSchema: z.ZodType<Prisma.GoogleProfileCreateInput> = z.object({
@@ -383,6 +465,41 @@ export const GoogleProfileUncheckedUpdateManyInputSchema: z.ZodType<Prisma.Googl
   locale: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
+export const InviteTierCreateInputSchema: z.ZodType<Prisma.InviteTierCreateInput> = z.object({
+  tier: z.string(),
+  availableAmount: z.number().int()
+}).strict();
+
+export const InviteTierUncheckedCreateInputSchema: z.ZodType<Prisma.InviteTierUncheckedCreateInput> = z.object({
+  tier: z.string(),
+  availableAmount: z.number().int()
+}).strict();
+
+export const InviteTierUpdateInputSchema: z.ZodType<Prisma.InviteTierUpdateInput> = z.object({
+  tier: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  availableAmount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+}).strict();
+
+export const InviteTierUncheckedUpdateInputSchema: z.ZodType<Prisma.InviteTierUncheckedUpdateInput> = z.object({
+  tier: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  availableAmount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+}).strict();
+
+export const InviteTierCreateManyInputSchema: z.ZodType<Prisma.InviteTierCreateManyInput> = z.object({
+  tier: z.string(),
+  availableAmount: z.number().int()
+}).strict();
+
+export const InviteTierUpdateManyMutationInputSchema: z.ZodType<Prisma.InviteTierUpdateManyMutationInput> = z.object({
+  tier: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  availableAmount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+}).strict();
+
+export const InviteTierUncheckedUpdateManyInputSchema: z.ZodType<Prisma.InviteTierUncheckedUpdateManyInput> = z.object({
+  tier: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  availableAmount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+}).strict();
+
 export const StringFilterSchema: z.ZodType<Prisma.StringFilter> = z.object({
   equals: z.string().optional(),
   in: z.string().array().optional(),
@@ -395,6 +512,17 @@ export const StringFilterSchema: z.ZodType<Prisma.StringFilter> = z.object({
   startsWith: z.string().optional(),
   endsWith: z.string().optional(),
   not: z.union([ z.string(),z.lazy(() => NestedStringFilterSchema) ]).optional(),
+}).strict();
+
+export const DateTimeFilterSchema: z.ZodType<Prisma.DateTimeFilter> = z.object({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeFilterSchema) ]).optional(),
 }).strict();
 
 export const StringNullableFilterSchema: z.ZodType<Prisma.StringNullableFilter> = z.object({
@@ -411,17 +539,6 @@ export const StringNullableFilterSchema: z.ZodType<Prisma.StringNullableFilter> 
   not: z.union([ z.string(),z.lazy(() => NestedStringNullableFilterSchema) ]).optional().nullable(),
 }).strict();
 
-export const DateTimeFilterSchema: z.ZodType<Prisma.DateTimeFilter> = z.object({
-  equals: z.coerce.date().optional(),
-  in: z.coerce.date().array().optional(),
-  notIn: z.coerce.date().array().optional(),
-  lt: z.coerce.date().optional(),
-  lte: z.coerce.date().optional(),
-  gt: z.coerce.date().optional(),
-  gte: z.coerce.date().optional(),
-  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeFilterSchema) ]).optional(),
-}).strict();
-
 export const DateTimeNullableFilterSchema: z.ZodType<Prisma.DateTimeNullableFilter> = z.object({
   equals: z.coerce.date().optional().nullable(),
   in: z.coerce.date().array().optional().nullable(),
@@ -433,36 +550,46 @@ export const DateTimeNullableFilterSchema: z.ZodType<Prisma.DateTimeNullableFilt
   not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeNullableFilterSchema) ]).optional().nullable(),
 }).strict();
 
+export const EnumTypeFilterSchema: z.ZodType<Prisma.EnumTypeFilter> = z.object({
+  equals: z.lazy(() => TypeSchema).optional(),
+  in: z.lazy(() => TypeSchema).array().optional(),
+  notIn: z.lazy(() => TypeSchema).array().optional(),
+  not: z.union([ z.lazy(() => TypeSchema),z.lazy(() => NestedEnumTypeFilterSchema) ]).optional(),
+}).strict();
+
 export const SortOrderInputSchema: z.ZodType<Prisma.SortOrderInput> = z.object({
   sort: z.lazy(() => SortOrderSchema),
   nulls: z.lazy(() => NullsOrderSchema).optional()
 }).strict();
 
 export const UserCountOrderByAggregateInputSchema: z.ZodType<Prisma.UserCountOrderByAggregateInput> = z.object({
-  id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
-  imageUrl: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
+  imageUrl: z.lazy(() => SortOrderSchema).optional(),
+  deletedAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  deletedAt: z.lazy(() => SortOrderSchema).optional()
+  uid: z.lazy(() => SortOrderSchema).optional(),
+  type: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const UserMaxOrderByAggregateInputSchema: z.ZodType<Prisma.UserMaxOrderByAggregateInput> = z.object({
-  id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
-  imageUrl: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
+  imageUrl: z.lazy(() => SortOrderSchema).optional(),
+  deletedAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  deletedAt: z.lazy(() => SortOrderSchema).optional()
+  uid: z.lazy(() => SortOrderSchema).optional(),
+  type: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const UserMinOrderByAggregateInputSchema: z.ZodType<Prisma.UserMinOrderByAggregateInput> = z.object({
-  id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
-  imageUrl: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
+  imageUrl: z.lazy(() => SortOrderSchema).optional(),
+  deletedAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  deletedAt: z.lazy(() => SortOrderSchema).optional()
+  uid: z.lazy(() => SortOrderSchema).optional(),
+  type: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const StringWithAggregatesFilterSchema: z.ZodType<Prisma.StringWithAggregatesFilter> = z.object({
@@ -482,6 +609,20 @@ export const StringWithAggregatesFilterSchema: z.ZodType<Prisma.StringWithAggreg
   _max: z.lazy(() => NestedStringFilterSchema).optional()
 }).strict();
 
+export const DateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.DateTimeWithAggregatesFilter> = z.object({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedDateTimeFilterSchema).optional(),
+  _max: z.lazy(() => NestedDateTimeFilterSchema).optional()
+}).strict();
+
 export const StringNullableWithAggregatesFilterSchema: z.ZodType<Prisma.StringNullableWithAggregatesFilter> = z.object({
   equals: z.string().optional().nullable(),
   in: z.string().array().optional().nullable(),
@@ -499,20 +640,6 @@ export const StringNullableWithAggregatesFilterSchema: z.ZodType<Prisma.StringNu
   _max: z.lazy(() => NestedStringNullableFilterSchema).optional()
 }).strict();
 
-export const DateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.DateTimeWithAggregatesFilter> = z.object({
-  equals: z.coerce.date().optional(),
-  in: z.coerce.date().array().optional(),
-  notIn: z.coerce.date().array().optional(),
-  lt: z.coerce.date().optional(),
-  lte: z.coerce.date().optional(),
-  gt: z.coerce.date().optional(),
-  gte: z.coerce.date().optional(),
-  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeWithAggregatesFilterSchema) ]).optional(),
-  _count: z.lazy(() => NestedIntFilterSchema).optional(),
-  _min: z.lazy(() => NestedDateTimeFilterSchema).optional(),
-  _max: z.lazy(() => NestedDateTimeFilterSchema).optional()
-}).strict();
-
 export const DateTimeNullableWithAggregatesFilterSchema: z.ZodType<Prisma.DateTimeNullableWithAggregatesFilter> = z.object({
   equals: z.coerce.date().optional().nullable(),
   in: z.coerce.date().array().optional().nullable(),
@@ -525,6 +652,16 @@ export const DateTimeNullableWithAggregatesFilterSchema: z.ZodType<Prisma.DateTi
   _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
   _min: z.lazy(() => NestedDateTimeNullableFilterSchema).optional(),
   _max: z.lazy(() => NestedDateTimeNullableFilterSchema).optional()
+}).strict();
+
+export const EnumTypeWithAggregatesFilterSchema: z.ZodType<Prisma.EnumTypeWithAggregatesFilter> = z.object({
+  equals: z.lazy(() => TypeSchema).optional(),
+  in: z.lazy(() => TypeSchema).array().optional(),
+  notIn: z.lazy(() => TypeSchema).array().optional(),
+  not: z.union([ z.lazy(() => TypeSchema),z.lazy(() => NestedEnumTypeWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedEnumTypeFilterSchema).optional(),
+  _max: z.lazy(() => NestedEnumTypeFilterSchema).optional()
 }).strict();
 
 export const BoolNullableFilterSchema: z.ZodType<Prisma.BoolNullableFilter> = z.object({
@@ -576,24 +713,86 @@ export const BoolNullableWithAggregatesFilterSchema: z.ZodType<Prisma.BoolNullab
   _max: z.lazy(() => NestedBoolNullableFilterSchema).optional()
 }).strict();
 
-export const StringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.StringFieldUpdateOperationsInput> = z.object({
-  set: z.string().optional()
+export const IntFilterSchema: z.ZodType<Prisma.IntFilter> = z.object({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedIntFilterSchema) ]).optional(),
 }).strict();
 
-export const NullableStringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput> = z.object({
-  set: z.string().optional().nullable()
+export const InviteTierCountOrderByAggregateInputSchema: z.ZodType<Prisma.InviteTierCountOrderByAggregateInput> = z.object({
+  tier: z.lazy(() => SortOrderSchema).optional(),
+  availableAmount: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const InviteTierAvgOrderByAggregateInputSchema: z.ZodType<Prisma.InviteTierAvgOrderByAggregateInput> = z.object({
+  availableAmount: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const InviteTierMaxOrderByAggregateInputSchema: z.ZodType<Prisma.InviteTierMaxOrderByAggregateInput> = z.object({
+  tier: z.lazy(() => SortOrderSchema).optional(),
+  availableAmount: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const InviteTierMinOrderByAggregateInputSchema: z.ZodType<Prisma.InviteTierMinOrderByAggregateInput> = z.object({
+  tier: z.lazy(() => SortOrderSchema).optional(),
+  availableAmount: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const InviteTierSumOrderByAggregateInputSchema: z.ZodType<Prisma.InviteTierSumOrderByAggregateInput> = z.object({
+  availableAmount: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const IntWithAggregatesFilterSchema: z.ZodType<Prisma.IntWithAggregatesFilter> = z.object({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedIntWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _sum: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedIntFilterSchema).optional(),
+  _max: z.lazy(() => NestedIntFilterSchema).optional()
+}).strict();
+
+export const StringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.StringFieldUpdateOperationsInput> = z.object({
+  set: z.string().optional()
 }).strict();
 
 export const DateTimeFieldUpdateOperationsInputSchema: z.ZodType<Prisma.DateTimeFieldUpdateOperationsInput> = z.object({
   set: z.coerce.date().optional()
 }).strict();
 
+export const NullableStringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput> = z.object({
+  set: z.string().optional().nullable()
+}).strict();
+
 export const NullableDateTimeFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableDateTimeFieldUpdateOperationsInput> = z.object({
   set: z.coerce.date().optional().nullable()
 }).strict();
 
+export const EnumTypeFieldUpdateOperationsInputSchema: z.ZodType<Prisma.EnumTypeFieldUpdateOperationsInput> = z.object({
+  set: z.lazy(() => TypeSchema).optional()
+}).strict();
+
 export const NullableBoolFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableBoolFieldUpdateOperationsInput> = z.object({
   set: z.boolean().optional().nullable()
+}).strict();
+
+export const IntFieldUpdateOperationsInputSchema: z.ZodType<Prisma.IntFieldUpdateOperationsInput> = z.object({
+  set: z.number().optional(),
+  increment: z.number().optional(),
+  decrement: z.number().optional(),
+  multiply: z.number().optional(),
+  divide: z.number().optional()
 }).strict();
 
 export const NestedStringFilterSchema: z.ZodType<Prisma.NestedStringFilter> = z.object({
@@ -610,6 +809,17 @@ export const NestedStringFilterSchema: z.ZodType<Prisma.NestedStringFilter> = z.
   not: z.union([ z.string(),z.lazy(() => NestedStringFilterSchema) ]).optional(),
 }).strict();
 
+export const NestedDateTimeFilterSchema: z.ZodType<Prisma.NestedDateTimeFilter> = z.object({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeFilterSchema) ]).optional(),
+}).strict();
+
 export const NestedStringNullableFilterSchema: z.ZodType<Prisma.NestedStringNullableFilter> = z.object({
   equals: z.string().optional().nullable(),
   in: z.string().array().optional().nullable(),
@@ -624,17 +834,6 @@ export const NestedStringNullableFilterSchema: z.ZodType<Prisma.NestedStringNull
   not: z.union([ z.string(),z.lazy(() => NestedStringNullableFilterSchema) ]).optional().nullable(),
 }).strict();
 
-export const NestedDateTimeFilterSchema: z.ZodType<Prisma.NestedDateTimeFilter> = z.object({
-  equals: z.coerce.date().optional(),
-  in: z.coerce.date().array().optional(),
-  notIn: z.coerce.date().array().optional(),
-  lt: z.coerce.date().optional(),
-  lte: z.coerce.date().optional(),
-  gt: z.coerce.date().optional(),
-  gte: z.coerce.date().optional(),
-  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeFilterSchema) ]).optional(),
-}).strict();
-
 export const NestedDateTimeNullableFilterSchema: z.ZodType<Prisma.NestedDateTimeNullableFilter> = z.object({
   equals: z.coerce.date().optional().nullable(),
   in: z.coerce.date().array().optional().nullable(),
@@ -644,6 +843,13 @@ export const NestedDateTimeNullableFilterSchema: z.ZodType<Prisma.NestedDateTime
   gt: z.coerce.date().optional(),
   gte: z.coerce.date().optional(),
   not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeNullableFilterSchema) ]).optional().nullable(),
+}).strict();
+
+export const NestedEnumTypeFilterSchema: z.ZodType<Prisma.NestedEnumTypeFilter> = z.object({
+  equals: z.lazy(() => TypeSchema).optional(),
+  in: z.lazy(() => TypeSchema).array().optional(),
+  notIn: z.lazy(() => TypeSchema).array().optional(),
+  not: z.union([ z.lazy(() => TypeSchema),z.lazy(() => NestedEnumTypeFilterSchema) ]).optional(),
 }).strict();
 
 export const NestedStringWithAggregatesFilterSchema: z.ZodType<Prisma.NestedStringWithAggregatesFilter> = z.object({
@@ -674,6 +880,20 @@ export const NestedIntFilterSchema: z.ZodType<Prisma.NestedIntFilter> = z.object
   not: z.union([ z.number(),z.lazy(() => NestedIntFilterSchema) ]).optional(),
 }).strict();
 
+export const NestedDateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.NestedDateTimeWithAggregatesFilter> = z.object({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedDateTimeFilterSchema).optional(),
+  _max: z.lazy(() => NestedDateTimeFilterSchema).optional()
+}).strict();
+
 export const NestedStringNullableWithAggregatesFilterSchema: z.ZodType<Prisma.NestedStringNullableWithAggregatesFilter> = z.object({
   equals: z.string().optional().nullable(),
   in: z.string().array().optional().nullable(),
@@ -702,20 +922,6 @@ export const NestedIntNullableFilterSchema: z.ZodType<Prisma.NestedIntNullableFi
   not: z.union([ z.number(),z.lazy(() => NestedIntNullableFilterSchema) ]).optional().nullable(),
 }).strict();
 
-export const NestedDateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.NestedDateTimeWithAggregatesFilter> = z.object({
-  equals: z.coerce.date().optional(),
-  in: z.coerce.date().array().optional(),
-  notIn: z.coerce.date().array().optional(),
-  lt: z.coerce.date().optional(),
-  lte: z.coerce.date().optional(),
-  gt: z.coerce.date().optional(),
-  gte: z.coerce.date().optional(),
-  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeWithAggregatesFilterSchema) ]).optional(),
-  _count: z.lazy(() => NestedIntFilterSchema).optional(),
-  _min: z.lazy(() => NestedDateTimeFilterSchema).optional(),
-  _max: z.lazy(() => NestedDateTimeFilterSchema).optional()
-}).strict();
-
 export const NestedDateTimeNullableWithAggregatesFilterSchema: z.ZodType<Prisma.NestedDateTimeNullableWithAggregatesFilter> = z.object({
   equals: z.coerce.date().optional().nullable(),
   in: z.coerce.date().array().optional().nullable(),
@@ -730,6 +936,16 @@ export const NestedDateTimeNullableWithAggregatesFilterSchema: z.ZodType<Prisma.
   _max: z.lazy(() => NestedDateTimeNullableFilterSchema).optional()
 }).strict();
 
+export const NestedEnumTypeWithAggregatesFilterSchema: z.ZodType<Prisma.NestedEnumTypeWithAggregatesFilter> = z.object({
+  equals: z.lazy(() => TypeSchema).optional(),
+  in: z.lazy(() => TypeSchema).array().optional(),
+  notIn: z.lazy(() => TypeSchema).array().optional(),
+  not: z.union([ z.lazy(() => TypeSchema),z.lazy(() => NestedEnumTypeWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedEnumTypeFilterSchema).optional(),
+  _max: z.lazy(() => NestedEnumTypeFilterSchema).optional()
+}).strict();
+
 export const NestedBoolNullableFilterSchema: z.ZodType<Prisma.NestedBoolNullableFilter> = z.object({
   equals: z.boolean().optional().nullable(),
   not: z.union([ z.boolean(),z.lazy(() => NestedBoolNullableFilterSchema) ]).optional().nullable(),
@@ -741,6 +957,33 @@ export const NestedBoolNullableWithAggregatesFilterSchema: z.ZodType<Prisma.Nest
   _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
   _min: z.lazy(() => NestedBoolNullableFilterSchema).optional(),
   _max: z.lazy(() => NestedBoolNullableFilterSchema).optional()
+}).strict();
+
+export const NestedIntWithAggregatesFilterSchema: z.ZodType<Prisma.NestedIntWithAggregatesFilter> = z.object({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedIntWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _sum: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedIntFilterSchema).optional(),
+  _max: z.lazy(() => NestedIntFilterSchema).optional()
+}).strict();
+
+export const NestedFloatFilterSchema: z.ZodType<Prisma.NestedFloatFilter> = z.object({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedFloatFilterSchema) ]).optional(),
 }).strict();
 
 /////////////////////////////////////////
@@ -861,9 +1104,66 @@ export const GoogleProfileFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.GooglePr
   where: GoogleProfileWhereUniqueInputSchema,
 }).strict() ;
 
+export const InviteTierFindFirstArgsSchema: z.ZodType<Prisma.InviteTierFindFirstArgs> = z.object({
+  select: InviteTierSelectSchema.optional(),
+  where: InviteTierWhereInputSchema.optional(),
+  orderBy: z.union([ InviteTierOrderByWithRelationInputSchema.array(),InviteTierOrderByWithRelationInputSchema ]).optional(),
+  cursor: InviteTierWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ InviteTierScalarFieldEnumSchema,InviteTierScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const InviteTierFindFirstOrThrowArgsSchema: z.ZodType<Prisma.InviteTierFindFirstOrThrowArgs> = z.object({
+  select: InviteTierSelectSchema.optional(),
+  where: InviteTierWhereInputSchema.optional(),
+  orderBy: z.union([ InviteTierOrderByWithRelationInputSchema.array(),InviteTierOrderByWithRelationInputSchema ]).optional(),
+  cursor: InviteTierWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ InviteTierScalarFieldEnumSchema,InviteTierScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const InviteTierFindManyArgsSchema: z.ZodType<Prisma.InviteTierFindManyArgs> = z.object({
+  select: InviteTierSelectSchema.optional(),
+  where: InviteTierWhereInputSchema.optional(),
+  orderBy: z.union([ InviteTierOrderByWithRelationInputSchema.array(),InviteTierOrderByWithRelationInputSchema ]).optional(),
+  cursor: InviteTierWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ InviteTierScalarFieldEnumSchema,InviteTierScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const InviteTierAggregateArgsSchema: z.ZodType<Prisma.InviteTierAggregateArgs> = z.object({
+  where: InviteTierWhereInputSchema.optional(),
+  orderBy: z.union([ InviteTierOrderByWithRelationInputSchema.array(),InviteTierOrderByWithRelationInputSchema ]).optional(),
+  cursor: InviteTierWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() ;
+
+export const InviteTierGroupByArgsSchema: z.ZodType<Prisma.InviteTierGroupByArgs> = z.object({
+  where: InviteTierWhereInputSchema.optional(),
+  orderBy: z.union([ InviteTierOrderByWithAggregationInputSchema.array(),InviteTierOrderByWithAggregationInputSchema ]).optional(),
+  by: InviteTierScalarFieldEnumSchema.array(),
+  having: InviteTierScalarWhereWithAggregatesInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() ;
+
+export const InviteTierFindUniqueArgsSchema: z.ZodType<Prisma.InviteTierFindUniqueArgs> = z.object({
+  select: InviteTierSelectSchema.optional(),
+  where: InviteTierWhereUniqueInputSchema,
+}).strict() ;
+
+export const InviteTierFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.InviteTierFindUniqueOrThrowArgs> = z.object({
+  select: InviteTierSelectSchema.optional(),
+  where: InviteTierWhereUniqueInputSchema,
+}).strict() ;
+
 export const UserCreateArgsSchema: z.ZodType<Prisma.UserCreateArgs> = z.object({
   select: UserSelectSchema.optional(),
-  data: z.union([ UserCreateInputSchema,UserUncheckedCreateInputSchema ]).optional(),
+  data: z.union([ UserCreateInputSchema,UserUncheckedCreateInputSchema ]),
 }).strict() ;
 
 export const UserUpsertArgsSchema: z.ZodType<Prisma.UserUpsertArgs> = z.object({
@@ -933,4 +1233,41 @@ export const GoogleProfileUpdateManyArgsSchema: z.ZodType<Prisma.GoogleProfileUp
 
 export const GoogleProfileDeleteManyArgsSchema: z.ZodType<Prisma.GoogleProfileDeleteManyArgs> = z.object({
   where: GoogleProfileWhereInputSchema.optional(),
+}).strict() ;
+
+export const InviteTierCreateArgsSchema: z.ZodType<Prisma.InviteTierCreateArgs> = z.object({
+  select: InviteTierSelectSchema.optional(),
+  data: z.union([ InviteTierCreateInputSchema,InviteTierUncheckedCreateInputSchema ]),
+}).strict() ;
+
+export const InviteTierUpsertArgsSchema: z.ZodType<Prisma.InviteTierUpsertArgs> = z.object({
+  select: InviteTierSelectSchema.optional(),
+  where: InviteTierWhereUniqueInputSchema,
+  create: z.union([ InviteTierCreateInputSchema,InviteTierUncheckedCreateInputSchema ]),
+  update: z.union([ InviteTierUpdateInputSchema,InviteTierUncheckedUpdateInputSchema ]),
+}).strict() ;
+
+export const InviteTierCreateManyArgsSchema: z.ZodType<Prisma.InviteTierCreateManyArgs> = z.object({
+  data: z.union([ InviteTierCreateManyInputSchema,InviteTierCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict() ;
+
+export const InviteTierDeleteArgsSchema: z.ZodType<Prisma.InviteTierDeleteArgs> = z.object({
+  select: InviteTierSelectSchema.optional(),
+  where: InviteTierWhereUniqueInputSchema,
+}).strict() ;
+
+export const InviteTierUpdateArgsSchema: z.ZodType<Prisma.InviteTierUpdateArgs> = z.object({
+  select: InviteTierSelectSchema.optional(),
+  data: z.union([ InviteTierUpdateInputSchema,InviteTierUncheckedUpdateInputSchema ]),
+  where: InviteTierWhereUniqueInputSchema,
+}).strict() ;
+
+export const InviteTierUpdateManyArgsSchema: z.ZodType<Prisma.InviteTierUpdateManyArgs> = z.object({
+  data: z.union([ InviteTierUpdateManyMutationInputSchema,InviteTierUncheckedUpdateManyInputSchema ]),
+  where: InviteTierWhereInputSchema.optional(),
+}).strict() ;
+
+export const InviteTierDeleteManyArgsSchema: z.ZodType<Prisma.InviteTierDeleteManyArgs> = z.object({
+  where: InviteTierWhereInputSchema.optional(),
 }).strict() ;

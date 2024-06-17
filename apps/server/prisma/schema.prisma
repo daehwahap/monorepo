@@ -14,13 +14,19 @@ datasource db {
   relationMode      = "prisma"
 }
 
+enum Type {
+  User
+  Admin
+}
+
 model User {
-  name      String    @default("")
-  createdAt DateTime  @default(now())
+  name      String   @default("")
+  createdAt DateTime @default(now())
   imageUrl  String?
   deletedAt DateTime?
-  updatedAt DateTime  @default(now())
-  uid       String    @id
+  updatedAt DateTime @default(now())
+  uid       String   @id
+  type      Type     @default(User)
 }
 
 model GoogleProfile {

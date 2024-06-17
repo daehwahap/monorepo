@@ -1,17 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-  relationMode = "prisma"
 }
 
 generator zod {
@@ -19,24 +7,35 @@ generator zod {
   output   = "../src/prisma/dto"
 }
 
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  relationMode      = "prisma"
+}
+
 model User {
-  id        String   @id @default(uuid())
-  name      String   @default("")
+  name      String    @default("")
+  createdAt DateTime  @default(now())
   imageUrl  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  deletedAt DateTime? 
+  deletedAt DateTime?
+  updatedAt DateTime  @default(now())
+  uid       String    @id
 }
 
 model GoogleProfile {
-  uid             String   @id
-  sub             String   @unique
-  name            String?
-  given_name      String?
-  family_name     String?
-  picture         String?
-  email           String?
-  email_verified  Boolean?
-  locale          String?
+  uid            String   @id
+  sub            String   @unique
+  name           String?
+  given_name     String?
+  family_name    String?
+  picture        String?
+  email          String?
+  email_verified Boolean?
+  locale         String?
+}
 
+model InviteTier {
+  tier            String @unique
+  availableAmount Int
 }

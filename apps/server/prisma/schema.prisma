@@ -15,8 +15,8 @@ datasource db {
 }
 
 enum Type {
-  User
-  Admin
+  USER
+  ADMIN
 }
 
 model User {
@@ -26,7 +26,7 @@ model User {
   deletedAt DateTime?
   updatedAt DateTime @default(now())
   uid       String   @id
-  type      Type     @default(User)
+  type      Type     @default(USER)
 }
 
 model GoogleProfile {

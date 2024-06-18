@@ -22,7 +22,7 @@ export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const NullsOrderSchema = z.enum(['first','last']);
 
-export const TypeSchema = z.enum(['User','Admin']);
+export const TypeSchema = z.enum(['USER','ADMIN']);
 
 export type TypeType = `${z.infer<typeof TypeSchema>}`
 

@@ -6,6 +6,7 @@ import { Profile } from 'passport-google-oauth20'
 import { User } from 'src/prisma/dto'
 import { Prisma } from '@prisma/client'
 import { AuthService } from 'src/auth/auth.service'
+import { v4 as uuidv4 } from 'uuid'
 
 @Injectable()
 export class UserService {
@@ -38,7 +39,10 @@ export class UserService {
 
     if (!checkGoogleUser) {
       // 구글 로그인
+      const uid = uuidv4()
+
       const newUser = await this.userRepository.createUser({
+        uid,
         imageUrl: userInfo.profile,
         name: userInfo.name,
       })

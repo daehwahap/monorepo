@@ -14,19 +14,14 @@ datasource db {
   relationMode      = "prisma"
 }
 
-enum Type {
-  USER
-  ADMIN
-}
-
 model User {
-  name      String   @default("")
-  createdAt DateTime @default(now())
+  name      String    @default("")
+  createdAt DateTime  @default(now())
   imageUrl  String?
   deletedAt DateTime?
-  updatedAt DateTime @default(now())
-  uid       String   @id
-  type      Type     @default(USER)
+  updatedAt DateTime  @default(now())
+  uid       String    @id
+  type      Type      @default(USER)
 }
 
 model GoogleProfile {
@@ -44,4 +39,9 @@ model GoogleProfile {
 model InviteTier {
   tier            String @unique
   availableAmount Int
+}
+
+enum Type {
+  USER
+  ADMIN
 }

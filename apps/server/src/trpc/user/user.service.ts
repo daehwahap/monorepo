@@ -33,11 +33,11 @@ export class UserService {
 
     const userInfo = data as Profile['_json']
 
-    const checkGoogleUser = await this.userRepository.findGoogleUser({
+    const googleUser = await this.userRepository.findGoogleUser({
       sub: userInfo.sub,
     })
 
-    if (!checkGoogleUser) {
+    if (!googleUser) {
       // 구글 로그인
       const uid = uuidv4()
 
@@ -55,7 +55,7 @@ export class UserService {
       return { accessToken }
     }
 
-    const existUser = await this.userRepository.findUserById(checkGoogleUser.uid)
+    const existUser = await this.userRepository.findUserById(googleUser.uid)
     const accessToken = await this.authService.jwtSignIn(existUser as User)
 
     return { accessToken }

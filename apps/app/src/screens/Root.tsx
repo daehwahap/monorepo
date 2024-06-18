@@ -5,12 +5,18 @@ import {
 import { NATIVE_STACK_LIST_TYPE } from './RootNativeStack/type'
 import { NATIVE_STACK_LIST } from './RootNativeStack/constants'
 import BottomTabNavigation from './BottomTab'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { GOOGLE_AUTH_KEY } from '@env'
 
 const RootNativeStack = createNativeStackNavigator<NATIVE_STACK_LIST_TYPE>()
 
 const defaultOptions: NativeStackNavigationOptions = {
   headerShown: false,
 }
+
+GoogleSignin.configure({
+  iosClientId: GOOGLE_AUTH_KEY,
+})
 
 const RootNativeStackNavigation = () => {
   return (

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { User } from '@prisma/client'
 import { noop } from 'rxjs'
-import { InviteService } from 'src/trpc/invite/invite.service'
-import { TrpcService } from 'src/trpc/trpc.service'
+import { InviteService } from './invite.service'
+import { TrpcService } from '../trpc.service'
 
 @Injectable()
 export class InviteController {

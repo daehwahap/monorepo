@@ -38,19 +38,27 @@ model GoogleProfile {
 }
 
 model InviteTier {
-  tier            String @unique
+  tier            String       @id
   availableAmount Int
+  inviteInfo      InviteInfo[] @relation("UserInviteTier")
+
+  @@index([tier])
 }
 
 model InviteInfo {
-  uid                  String   @id
-  code                 String   @unique
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @default(now())
+  uid                  String     @id
+  code                 String     @unique
+  tier                 String     
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @default(now())
   availableInviteCount Int
-  inviteHistoryCount   Int      @default(0)
-  tier                 String
-  user                 User     @relation("UserInviteInfo", fields: [uid], references: [uid])
+  inviteHistoryCount   Int        @default(0)
+  user                 User       @relation("UserInviteInfo", fields: [uid], references: [uid])
+  inviterTier          InviteTier @relation("UserInviteTier", fields: [tier], references: [tier])
+
+  @@index([tier])
+  @@index([code])
+  @@index([uid])
 }
 
 enum User_type {

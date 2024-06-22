@@ -18,6 +18,8 @@ export const GoogleProfileScalarFieldEnumSchema = z.enum(['uid','sub','name','gi
 
 export const InviteTierScalarFieldEnumSchema = z.enum(['tier','availableAmount']);
 
+export const InviteInfoScalarFieldEnumSchema = z.enum(['uid','code','createdAt','updatedAt','availableInviteCount','inviteHistoryCount','tier']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const NullsOrderSchema = z.enum(['first','last']);
@@ -76,6 +78,22 @@ export const InviteTierSchema = z.object({
 export type InviteTier = z.infer<typeof InviteTierSchema>
 
 /////////////////////////////////////////
+// INVITE INFO SCHEMA
+/////////////////////////////////////////
+
+export const InviteInfoSchema = z.object({
+  uid: z.string(),
+  code: z.string(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  availableInviteCount: z.number().int(),
+  inviteHistoryCount: z.number().int(),
+  tier: z.string(),
+})
+
+export type InviteInfo = z.infer<typeof InviteInfoSchema>
+
+/////////////////////////////////////////
 // SELECT & INCLUDE
 /////////////////////////////////////////
 
@@ -113,6 +131,19 @@ export const GoogleProfileSelectSchema: z.ZodType<Prisma.GoogleProfileSelect> = 
 export const InviteTierSelectSchema: z.ZodType<Prisma.InviteTierSelect> = z.object({
   tier: z.boolean().optional(),
   availableAmount: z.boolean().optional(),
+}).strict()
+
+// INVITE INFO
+//------------------------------------------------------
+
+export const InviteInfoSelectSchema: z.ZodType<Prisma.InviteInfoSelect> = z.object({
+  uid: z.boolean().optional(),
+  code: z.boolean().optional(),
+  createdAt: z.boolean().optional(),
+  updatedAt: z.boolean().optional(),
+  availableInviteCount: z.boolean().optional(),
+  inviteHistoryCount: z.boolean().optional(),
+  tier: z.boolean().optional(),
 }).strict()
 
 
@@ -311,6 +342,73 @@ export const InviteTierScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.In
   availableAmount: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
 }).strict();
 
+export const InviteInfoWhereInputSchema: z.ZodType<Prisma.InviteInfoWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => InviteInfoWhereInputSchema),z.lazy(() => InviteInfoWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => InviteInfoWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => InviteInfoWhereInputSchema),z.lazy(() => InviteInfoWhereInputSchema).array() ]).optional(),
+  uid: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  code: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  availableInviteCount: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
+  inviteHistoryCount: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
+  tier: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+}).strict();
+
+export const InviteInfoOrderByWithRelationInputSchema: z.ZodType<Prisma.InviteInfoOrderByWithRelationInput> = z.object({
+  uid: z.lazy(() => SortOrderSchema).optional(),
+  code: z.lazy(() => SortOrderSchema).optional(),
+  createdAt: z.lazy(() => SortOrderSchema).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+  availableInviteCount: z.lazy(() => SortOrderSchema).optional(),
+  inviteHistoryCount: z.lazy(() => SortOrderSchema).optional(),
+  tier: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const InviteInfoWhereUniqueInputSchema: z.ZodType<Prisma.InviteInfoWhereUniqueInput> = z.object({
+  uid: z.string()
+})
+.and(z.object({
+  uid: z.string().optional(),
+  AND: z.union([ z.lazy(() => InviteInfoWhereInputSchema),z.lazy(() => InviteInfoWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => InviteInfoWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => InviteInfoWhereInputSchema),z.lazy(() => InviteInfoWhereInputSchema).array() ]).optional(),
+  code: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  availableInviteCount: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
+  inviteHistoryCount: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
+  tier: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+}).strict());
+
+export const InviteInfoOrderByWithAggregationInputSchema: z.ZodType<Prisma.InviteInfoOrderByWithAggregationInput> = z.object({
+  uid: z.lazy(() => SortOrderSchema).optional(),
+  code: z.lazy(() => SortOrderSchema).optional(),
+  createdAt: z.lazy(() => SortOrderSchema).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+  availableInviteCount: z.lazy(() => SortOrderSchema).optional(),
+  inviteHistoryCount: z.lazy(() => SortOrderSchema).optional(),
+  tier: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => InviteInfoCountOrderByAggregateInputSchema).optional(),
+  _avg: z.lazy(() => InviteInfoAvgOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => InviteInfoMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => InviteInfoMinOrderByAggregateInputSchema).optional(),
+  _sum: z.lazy(() => InviteInfoSumOrderByAggregateInputSchema).optional()
+}).strict();
+
+export const InviteInfoScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.InviteInfoScalarWhereWithAggregatesInput> = z.object({
+  AND: z.union([ z.lazy(() => InviteInfoScalarWhereWithAggregatesInputSchema),z.lazy(() => InviteInfoScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => InviteInfoScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => InviteInfoScalarWhereWithAggregatesInputSchema),z.lazy(() => InviteInfoScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  uid: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  code: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  createdAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
+  updatedAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
+  availableInviteCount: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
+  inviteHistoryCount: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
+  tier: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+}).strict();
+
 export const UserCreateInputSchema: z.ZodType<Prisma.UserCreateInput> = z.object({
   name: z.string().optional(),
   createdAt: z.coerce.date().optional(),
@@ -498,6 +596,76 @@ export const InviteTierUpdateManyMutationInputSchema: z.ZodType<Prisma.InviteTie
 export const InviteTierUncheckedUpdateManyInputSchema: z.ZodType<Prisma.InviteTierUncheckedUpdateManyInput> = z.object({
   tier: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   availableAmount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+}).strict();
+
+export const InviteInfoCreateInputSchema: z.ZodType<Prisma.InviteInfoCreateInput> = z.object({
+  uid: z.string(),
+  code: z.string(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
+  availableInviteCount: z.number().int(),
+  inviteHistoryCount: z.number().int().optional(),
+  tier: z.string()
+}).strict();
+
+export const InviteInfoUncheckedCreateInputSchema: z.ZodType<Prisma.InviteInfoUncheckedCreateInput> = z.object({
+  uid: z.string(),
+  code: z.string(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
+  availableInviteCount: z.number().int(),
+  inviteHistoryCount: z.number().int().optional(),
+  tier: z.string()
+}).strict();
+
+export const InviteInfoUpdateInputSchema: z.ZodType<Prisma.InviteInfoUpdateInput> = z.object({
+  uid: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  code: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  availableInviteCount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  inviteHistoryCount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  tier: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+}).strict();
+
+export const InviteInfoUncheckedUpdateInputSchema: z.ZodType<Prisma.InviteInfoUncheckedUpdateInput> = z.object({
+  uid: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  code: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  availableInviteCount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  inviteHistoryCount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  tier: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+}).strict();
+
+export const InviteInfoCreateManyInputSchema: z.ZodType<Prisma.InviteInfoCreateManyInput> = z.object({
+  uid: z.string(),
+  code: z.string(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
+  availableInviteCount: z.number().int(),
+  inviteHistoryCount: z.number().int().optional(),
+  tier: z.string()
+}).strict();
+
+export const InviteInfoUpdateManyMutationInputSchema: z.ZodType<Prisma.InviteInfoUpdateManyMutationInput> = z.object({
+  uid: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  code: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  availableInviteCount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  inviteHistoryCount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  tier: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+}).strict();
+
+export const InviteInfoUncheckedUpdateManyInputSchema: z.ZodType<Prisma.InviteInfoUncheckedUpdateManyInput> = z.object({
+  uid: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  code: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  availableInviteCount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  inviteHistoryCount: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  tier: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
 export const StringFilterSchema: z.ZodType<Prisma.StringFilter> = z.object({
@@ -761,6 +929,46 @@ export const IntWithAggregatesFilterSchema: z.ZodType<Prisma.IntWithAggregatesFi
   _sum: z.lazy(() => NestedIntFilterSchema).optional(),
   _min: z.lazy(() => NestedIntFilterSchema).optional(),
   _max: z.lazy(() => NestedIntFilterSchema).optional()
+}).strict();
+
+export const InviteInfoCountOrderByAggregateInputSchema: z.ZodType<Prisma.InviteInfoCountOrderByAggregateInput> = z.object({
+  uid: z.lazy(() => SortOrderSchema).optional(),
+  code: z.lazy(() => SortOrderSchema).optional(),
+  createdAt: z.lazy(() => SortOrderSchema).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+  availableInviteCount: z.lazy(() => SortOrderSchema).optional(),
+  inviteHistoryCount: z.lazy(() => SortOrderSchema).optional(),
+  tier: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const InviteInfoAvgOrderByAggregateInputSchema: z.ZodType<Prisma.InviteInfoAvgOrderByAggregateInput> = z.object({
+  availableInviteCount: z.lazy(() => SortOrderSchema).optional(),
+  inviteHistoryCount: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const InviteInfoMaxOrderByAggregateInputSchema: z.ZodType<Prisma.InviteInfoMaxOrderByAggregateInput> = z.object({
+  uid: z.lazy(() => SortOrderSchema).optional(),
+  code: z.lazy(() => SortOrderSchema).optional(),
+  createdAt: z.lazy(() => SortOrderSchema).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+  availableInviteCount: z.lazy(() => SortOrderSchema).optional(),
+  inviteHistoryCount: z.lazy(() => SortOrderSchema).optional(),
+  tier: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const InviteInfoMinOrderByAggregateInputSchema: z.ZodType<Prisma.InviteInfoMinOrderByAggregateInput> = z.object({
+  uid: z.lazy(() => SortOrderSchema).optional(),
+  code: z.lazy(() => SortOrderSchema).optional(),
+  createdAt: z.lazy(() => SortOrderSchema).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+  availableInviteCount: z.lazy(() => SortOrderSchema).optional(),
+  inviteHistoryCount: z.lazy(() => SortOrderSchema).optional(),
+  tier: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const InviteInfoSumOrderByAggregateInputSchema: z.ZodType<Prisma.InviteInfoSumOrderByAggregateInput> = z.object({
+  availableInviteCount: z.lazy(() => SortOrderSchema).optional(),
+  inviteHistoryCount: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const StringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.StringFieldUpdateOperationsInput> = z.object({
@@ -1161,6 +1369,63 @@ export const InviteTierFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.InviteTierF
   where: InviteTierWhereUniqueInputSchema,
 }).strict() ;
 
+export const InviteInfoFindFirstArgsSchema: z.ZodType<Prisma.InviteInfoFindFirstArgs> = z.object({
+  select: InviteInfoSelectSchema.optional(),
+  where: InviteInfoWhereInputSchema.optional(),
+  orderBy: z.union([ InviteInfoOrderByWithRelationInputSchema.array(),InviteInfoOrderByWithRelationInputSchema ]).optional(),
+  cursor: InviteInfoWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ InviteInfoScalarFieldEnumSchema,InviteInfoScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const InviteInfoFindFirstOrThrowArgsSchema: z.ZodType<Prisma.InviteInfoFindFirstOrThrowArgs> = z.object({
+  select: InviteInfoSelectSchema.optional(),
+  where: InviteInfoWhereInputSchema.optional(),
+  orderBy: z.union([ InviteInfoOrderByWithRelationInputSchema.array(),InviteInfoOrderByWithRelationInputSchema ]).optional(),
+  cursor: InviteInfoWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ InviteInfoScalarFieldEnumSchema,InviteInfoScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const InviteInfoFindManyArgsSchema: z.ZodType<Prisma.InviteInfoFindManyArgs> = z.object({
+  select: InviteInfoSelectSchema.optional(),
+  where: InviteInfoWhereInputSchema.optional(),
+  orderBy: z.union([ InviteInfoOrderByWithRelationInputSchema.array(),InviteInfoOrderByWithRelationInputSchema ]).optional(),
+  cursor: InviteInfoWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ InviteInfoScalarFieldEnumSchema,InviteInfoScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const InviteInfoAggregateArgsSchema: z.ZodType<Prisma.InviteInfoAggregateArgs> = z.object({
+  where: InviteInfoWhereInputSchema.optional(),
+  orderBy: z.union([ InviteInfoOrderByWithRelationInputSchema.array(),InviteInfoOrderByWithRelationInputSchema ]).optional(),
+  cursor: InviteInfoWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() ;
+
+export const InviteInfoGroupByArgsSchema: z.ZodType<Prisma.InviteInfoGroupByArgs> = z.object({
+  where: InviteInfoWhereInputSchema.optional(),
+  orderBy: z.union([ InviteInfoOrderByWithAggregationInputSchema.array(),InviteInfoOrderByWithAggregationInputSchema ]).optional(),
+  by: InviteInfoScalarFieldEnumSchema.array(),
+  having: InviteInfoScalarWhereWithAggregatesInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() ;
+
+export const InviteInfoFindUniqueArgsSchema: z.ZodType<Prisma.InviteInfoFindUniqueArgs> = z.object({
+  select: InviteInfoSelectSchema.optional(),
+  where: InviteInfoWhereUniqueInputSchema,
+}).strict() ;
+
+export const InviteInfoFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.InviteInfoFindUniqueOrThrowArgs> = z.object({
+  select: InviteInfoSelectSchema.optional(),
+  where: InviteInfoWhereUniqueInputSchema,
+}).strict() ;
+
 export const UserCreateArgsSchema: z.ZodType<Prisma.UserCreateArgs> = z.object({
   select: UserSelectSchema.optional(),
   data: z.union([ UserCreateInputSchema,UserUncheckedCreateInputSchema ]),
@@ -1270,4 +1535,41 @@ export const InviteTierUpdateManyArgsSchema: z.ZodType<Prisma.InviteTierUpdateMa
 
 export const InviteTierDeleteManyArgsSchema: z.ZodType<Prisma.InviteTierDeleteManyArgs> = z.object({
   where: InviteTierWhereInputSchema.optional(),
+}).strict() ;
+
+export const InviteInfoCreateArgsSchema: z.ZodType<Prisma.InviteInfoCreateArgs> = z.object({
+  select: InviteInfoSelectSchema.optional(),
+  data: z.union([ InviteInfoCreateInputSchema,InviteInfoUncheckedCreateInputSchema ]),
+}).strict() ;
+
+export const InviteInfoUpsertArgsSchema: z.ZodType<Prisma.InviteInfoUpsertArgs> = z.object({
+  select: InviteInfoSelectSchema.optional(),
+  where: InviteInfoWhereUniqueInputSchema,
+  create: z.union([ InviteInfoCreateInputSchema,InviteInfoUncheckedCreateInputSchema ]),
+  update: z.union([ InviteInfoUpdateInputSchema,InviteInfoUncheckedUpdateInputSchema ]),
+}).strict() ;
+
+export const InviteInfoCreateManyArgsSchema: z.ZodType<Prisma.InviteInfoCreateManyArgs> = z.object({
+  data: z.union([ InviteInfoCreateManyInputSchema,InviteInfoCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict() ;
+
+export const InviteInfoDeleteArgsSchema: z.ZodType<Prisma.InviteInfoDeleteArgs> = z.object({
+  select: InviteInfoSelectSchema.optional(),
+  where: InviteInfoWhereUniqueInputSchema,
+}).strict() ;
+
+export const InviteInfoUpdateArgsSchema: z.ZodType<Prisma.InviteInfoUpdateArgs> = z.object({
+  select: InviteInfoSelectSchema.optional(),
+  data: z.union([ InviteInfoUpdateInputSchema,InviteInfoUncheckedUpdateInputSchema ]),
+  where: InviteInfoWhereUniqueInputSchema,
+}).strict() ;
+
+export const InviteInfoUpdateManyArgsSchema: z.ZodType<Prisma.InviteInfoUpdateManyArgs> = z.object({
+  data: z.union([ InviteInfoUpdateManyMutationInputSchema,InviteInfoUncheckedUpdateManyInputSchema ]),
+  where: InviteInfoWhereInputSchema.optional(),
+}).strict() ;
+
+export const InviteInfoDeleteManyArgsSchema: z.ZodType<Prisma.InviteInfoDeleteManyArgs> = z.object({
+  where: InviteInfoWhereInputSchema.optional(),
 }).strict() ;

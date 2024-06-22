@@ -9,8 +9,6 @@ export class InviteService {
 
   async createInviteInfo(uid: User['uid']) {
     try {
-      const now = new Date()
-
       /**
        * @todo
        * 초대권 티어 개념이 정의되면 테이블에서 정보 가져와서 넣어주도록 변경
@@ -18,8 +16,6 @@ export class InviteService {
       const data = {
         uid,
         code: generateCode(),
-        createdAt: now,
-        updatedAt: now,
         availableInviteCount: 100,
         inviteHistoryCount: 0,
         tier: 'temp tier',

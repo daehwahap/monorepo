@@ -17,7 +17,6 @@ export class InviteService {
         uid,
         code: generateCode(),
         availableInviteCount: 100,
-        inviteHistoryCount: 0,
         tier: 'temp tier',
       }
 

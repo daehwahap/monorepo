@@ -17,5 +17,10 @@ export class InviteController {
 
       return await this.inviteService.createInviteInfo(uid)
     }),
+    getInviteInfo: this.trpcService.authProcedure.input(noop).query(async ({ ctx }) => {
+      const { uid } = ctx as User
+
+      return await this.inviteService.getInviteInfo(uid)
+    }),
   })
 }

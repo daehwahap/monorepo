@@ -33,4 +33,8 @@ export class InviteService {
        */
     }
   }
+
+  async getInviteInfo(uid: User['uid']) {
+    return this.inviteRepository.findInviteInfo({ uid })
+  }
 }

@@ -11,4 +11,10 @@ export class InviteRepository {
       data,
     })
   }
+
+  async findInviteInfo(data: Prisma.InviteInfoWhereUniqueInput) {
+    return await this.prismaService.inviteInfo.findFirst({
+      where: { uid: data.uid },
+    })
+  }
 }

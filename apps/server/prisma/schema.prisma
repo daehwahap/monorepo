@@ -15,14 +15,14 @@ datasource db {
 }
 
 model User {
-  name       String       @default("")
-  createdAt  DateTime     @default(now())
+  name       String      @default("")
+  createdAt  DateTime    @default(now())
   imageUrl   String?
   deletedAt  DateTime?
-  updatedAt  DateTime     @default(now())
-  uid        String       @id
-  type       User_type    @default(USER_NOT_INVITED)
-  InviteInfo InviteInfo[]
+  updatedAt  DateTime    @default(now())
+  uid        String      @id
+  type       User_type   @default(USER_NOT_INVITED)
+  InviteInfo InviteInfo? @relation("UserInviteInfo")
 }
 
 model GoogleProfile {
@@ -50,11 +50,18 @@ model InviteInfo {
   availableInviteCount Int
   inviteHistoryCount   Int      @default(0)
   tier                 String
-  user                 User     @relation(fields: [uid], references: [uid])
+  user                 User     @relation("UserInviteInfo", fields: [uid], references: [uid])
 }
 
 enum User_type {
   USER_NOT_INVITED
   USER
   ADMIN
+}
+
+model InviteRecord {
+  id         Int      @id @default(autoincrement())
+  inviteeUid String
+  inviterUid String
+  createdAt  DateTime @default(now())
 }

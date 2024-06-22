@@ -21,7 +21,7 @@ model User {
   deletedAt DateTime?
   updatedAt DateTime  @default(now())
   uid       String    @id
-  type      Type      @default(USER)
+  type      User_type @default(USER)
 }
 
 model GoogleProfile {
@@ -41,17 +41,18 @@ model InviteTier {
   availableAmount Int
 }
 
-enum Type {
-  USER
-  ADMIN
+model InviteInfo {
+  uid                  String   @id
+  code                 String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @default(now())
+  availableInviteCount Int
+  inviteHistoryCount   Int      @default(0)
+  tier                 String
 }
 
-model InviteInfo {
-  uid String @id
-  code String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  availableInviteCount Int
-  inviteHistoryCount Int @default(0)
-  tier String
+enum User_type {
+  USER_NOT_INVITED
+  USER
+  ADMIN
 }

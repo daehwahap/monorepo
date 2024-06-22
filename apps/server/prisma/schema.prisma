@@ -56,3 +56,13 @@ enum Type {
   USER
   ADMIN
 }
+
+model InviteInfo {
+  uid String @id
+  code String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  availableInviteCount Int
+  inviteHistoryCount Int @default(0)
+  tier String
+}

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { User } from '@prisma/client'
 import { InviteRepository } from 'src/trpc/invite/invite.repository'
+import { generateCode } from 'src/trpc/invite/invite.utils'
 
 @Injectable()
 export class InviteService {
@@ -16,7 +17,7 @@ export class InviteService {
        */
       const data = {
         uid,
-        code: uid,
+        code: generateCode(),
         createdAt: now,
         updatedAt: now,
         availableInviteCount: 100,

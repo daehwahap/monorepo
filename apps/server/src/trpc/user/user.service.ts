@@ -52,6 +52,7 @@ export class UserService {
         ...(userInfo as Omit<Prisma.GoogleProfileCreateInput, 'uid'>),
         uid: newUser.uid,
       })
+
       await this.inviteService.createInviteInfo(uid)
 
       const accessToken = await this.authService.jwtSignIn(newUser as User)

@@ -32,8 +32,8 @@ export class UserController {
      * JWT 기반으로 유저정보를 받아오는 로직
      */
     getUser: this.trpcService.authProcedure.input(noop).query(async ({ ctx }) => {
-      const { id } = ctx as User
-      return await this.userService.getUser(id)
+      const { uid } = ctx as User
+      return await this.userService.getUser(uid)
     }),
 
     hello: this.trpcService.procedure

@@ -10,6 +10,8 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "create-migration": "pnpx prisma migrate dev --create-only",
     "deploy-migration": "pnpx prisma migrate deploy",
+    "prisma-generate": "pnpx prisma generate",
+    "prisma-format": "pnpx prisma format",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

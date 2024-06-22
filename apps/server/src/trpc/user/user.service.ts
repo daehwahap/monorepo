@@ -6,6 +6,7 @@ import { Profile } from 'passport-google-oauth20'
 import { User } from 'src/prisma/dto'
 import { Prisma } from '@prisma/client'
 import { AuthService } from 'src/auth/auth.service'
+import { InviteService } from 'src/trpc/invite/invite.service'
 import { v4 as uuidv4 } from 'uuid'
 
 @Injectable()
@@ -14,6 +15,7 @@ export class UserService {
     private readonly userRepository: UserRepository,
     private readonly httpService: HttpService,
     private readonly authService: AuthService,
+    private readonly inviteService: InviteService,
   ) {}
 
   async getUser(userId: User['uid']) {
@@ -50,6 +52,8 @@ export class UserService {
         ...(userInfo as Omit<Prisma.GoogleProfileCreateInput, 'uid'>),
         uid: newUser.uid,
       })
+
+      await this.inviteService.createInviteInfo(uid)
 
       const accessToken = await this.authService.jwtSignIn(newUser as User)
       return { accessToken }

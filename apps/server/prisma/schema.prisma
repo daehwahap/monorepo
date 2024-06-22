@@ -41,17 +41,18 @@ model InviteTier {
   availableAmount Int
 }
 
-enum Type {
-  USER
-  ADMIN
+model InviteInfo {
+  uid                  String   @id
+  code                 String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @default(now())
+  availableInviteCount Int
+  inviteHistoryCount   Int      @default(0)
+  tier                 String
 }
 
-model InviteInfo {
-  uid String @id
-  code String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  availableInviteCount Int
-  inviteHistoryCount Int @default(0)
-  tier String
+enum Type {
+  USER_NOT_INVITED
+  USER
+  ADMIN
 }

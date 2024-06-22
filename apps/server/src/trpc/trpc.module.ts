@@ -6,9 +6,15 @@ import { UserController } from './user/user.controller'
 import { AuthModule } from 'src/auth/auth.module'
 import { AwsModule } from 'src/trpc/aws/aws.module'
 import { AwsController } from 'src/trpc/aws/aws.controller'
+import { InviteModule } from 'src/trpc/invite/invite.module'
 
 @Module({
-  imports: [forwardRef(() => UserModule), forwardRef(() => AwsModule), AuthModule],
+  imports: [
+    forwardRef(() => UserModule),
+    forwardRef(() => AwsModule),
+    forwardRef(() => InviteModule),
+    AuthModule,
+  ],
   providers: [TrpcService, TrpcRouter, UserController, AwsController],
 })
 export class TrpcModule {}

@@ -5,7 +5,8 @@
   "packageManager": "pnpm@9.0.4",
   "exports": {
     "./src/utils": "./src/utils/index.ts",
-    "./src/constants": "./src/constants/index.ts"
+    "./src/constants": "./src/constants/index.ts",
+    "./src/components": "./src/components/index.ts"
   },
   "scripts": {
     "lint": "eslint ."

@@ -3,22 +3,34 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 
-import { BottomTabRoute } from '@/screens/BottomTab/type'
 import { useAppRouter } from '@/shared/hooks/useAppRouter'
 
-function TabBar(props: BottomTabBarProps) {
+import { BottomTabRoute } from './type'
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+  },
+  item: {
+    flex: 1,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
+
+const TabBar = ({ state }: BottomTabBarProps) => {
   const { bottom } = useSafeAreaInsets()
 
   const { navigate } = useAppRouter()
 
-  const handlePress = (routeName: keyof BOTTOM_TAP_ROUTE_TYPE) => {
-    return navigate('BottomTab', { screen: routeName })
-  }
+  const handlePress = (routeName: keyof BottomTabRoute) =>
+    navigate('BottomTab', { screen: routeName })
 
   return (
     <View style={StyleSheet.flatten([styles.container, { paddingBottom: bottom || 32 }])}>
-      {props.state.routes.map((route, index) => {
-        const isFocused = props.state.index === index
+      {state.routes.map((route, index) => {
+        const isFocused = state.index === index
 
         const routeName = route.name as keyof BottomTabRoute
 
@@ -35,17 +47,5 @@ function TabBar(props: BottomTabBarProps) {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-  },
-  item: {
-    flex: 1,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-})
 
 export default TabBar

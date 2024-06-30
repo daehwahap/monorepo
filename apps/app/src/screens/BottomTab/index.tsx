@@ -10,19 +10,17 @@ const defaultOptions: BottomTabNavigationOptions = {
   headerShown: false,
 }
 
-function BottomTabNavigation() {
-  return (
-    <BottomTab.Navigator screenOptions={defaultOptions} tabBar={(props) => <TabBar {...props} />}>
-      {BOTTOM_TAB_LIST.map((item) => (
-        <BottomTab.Screen
-          name={item.name}
-          component={item.component}
-          options={item.options}
-          key={item.name}
-        />
-      ))}
-    </BottomTab.Navigator>
-  )
-}
+const BottomTabNavigation = () => (
+  <BottomTab.Navigator screenOptions={defaultOptions} tabBar={(props) => <TabBar {...props} />}>
+    {BOTTOM_TAB_LIST.map((item) => (
+      <BottomTab.Screen
+        name={item.name}
+        component={item.component}
+        options={item.options}
+        key={item.name}
+      />
+    ))}
+  </BottomTab.Navigator>
+)
 
 export default BottomTabNavigation

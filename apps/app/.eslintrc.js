@@ -6,6 +6,7 @@ module.exports = {
   },
   rules: {
     'class-methods-use-this': 'off',
+    'react/function-component-definition': 'off',
 
     'import/prefer-default-export': 'off',
     'import/order': [

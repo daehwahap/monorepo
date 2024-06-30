@@ -3,11 +3,6 @@ import { View } from 'react-native'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import GlobalComponentProvider from './src/shared/global-component'
-import { NavigationContainer } from '@react-navigation/native'
-import RootNativeStackNavigation from './src/screens/Root'
-import { View } from 'react-native'
-
 
 import RootNativeStackNavigation from '@/screens/Root'
 import GlobalComponentProvider from '@/shared/global-component'

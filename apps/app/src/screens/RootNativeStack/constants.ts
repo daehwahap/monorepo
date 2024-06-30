@@ -10,4 +10,4 @@ export const NATIVE_STACK_LIST = [
   { name: 'AcceptInvite', component: AcceptInvite, options: undefined },
 ] as const
 
-export type STACK_SCREEN_LIST_TYPE = typeof NATIVE_STACK_LIST
+export type StackScreenListType = typeof NATIVE_STACK_LIST

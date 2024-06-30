@@ -1,8 +1,10 @@
 import { View } from 'react-native'
-import { Header } from '../../../shared/components/custom-header'
+
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin'
-import { trpc } from '../../../shared/trpc'
-import authStorage from '../../../shared/storage/Auth'
+
+import { Header } from '@/shared/components/custom-header'
+import authStorage from '@/shared/storage/Auth'
+import { trpc } from '@/shared/trpc'
 
 export const SignIn = () => {
   const handleLoginPress = async () => {

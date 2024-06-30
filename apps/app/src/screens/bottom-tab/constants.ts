@@ -2,8 +2,8 @@ import { FunctionComponent } from 'react'
 
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
 
-import { First } from './First'
-import { Second } from './Second'
+import { First } from '@/screens/bottom-tab/First'
+import { Second } from '@/screens/bottom-tab/Second'
 
 type BottomTabParams = {
   name: string

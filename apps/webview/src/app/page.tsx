@@ -1,6 +1,6 @@
 'use client'
 
-import { Toast, webBridge } from './_provider'
+import { Toast } from './_provider'
 
 const MainPage = () => (
   <div>

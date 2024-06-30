@@ -1,12 +1,13 @@
-import { LANGUAGE_DATA, LanguageTypes, defaultNS, getOptions } from '@pinit/shared/src/constants'
+import { initReactI18next } from 'react-i18next'
+
+import { defaultNS, getOptions, LANGUAGE_DATA, LanguageTypes } from '@pinit/shared/src/constants'
+
 import i18n from 'i18next'
 import resourcesToBackend from 'i18next-resources-to-backend'
-import { initReactI18next } from 'react-i18next'
-import languageStorage from '../shared/storage/Language'
 
-const getLanguage = () => {
-  return languageStorage.getLanguage()
-}
+import languageStorage from '@/shared/storage/Language'
+
+const getLanguage = () => languageStorage.getLanguage()
 
 i18n
   .use(initReactI18next)

@@ -1,8 +1,10 @@
 'use client'
 
-import { createPortal, useGlobalComponentContext } from '@pinit/shared/src/utils'
-import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect } from 'react'
+
+import { createPortal, useGlobalComponentContext } from '@pinit/shared/src/utils'
+
+import { AnimatePresence, motion } from 'framer-motion'
 
 type ToastProps = {
   text: string

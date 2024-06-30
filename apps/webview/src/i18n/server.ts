@@ -1,7 +1,8 @@
+import { LANGUAGE_DATA, defaultNS, getOptions, LanguageTypes } from '@pinit/shared/src/constants'
+
 import { createInstance } from 'i18next'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import { initReactI18next } from 'react-i18next/initReactI18next'
-import { LANGUAGE_DATA, defaultNS, getOptions, LanguageTypes } from '@pinit/shared/src/constants'
 
 const initI18next = async (lang: LanguageTypes, ns: string) => {
   const i18nInstance = createInstance()

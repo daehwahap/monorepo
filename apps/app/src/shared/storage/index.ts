@@ -2,6 +2,7 @@ import { MMKV } from 'react-native-mmkv'
 
 export class MMKVWrapper<T> {
   private key: string
+
   private mmkv = new MMKV()
 
   constructor(namespace: string) {

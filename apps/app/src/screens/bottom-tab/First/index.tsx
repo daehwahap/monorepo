@@ -1,7 +1,23 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-import { useAppRouter } from '@/shared/hooks/useAppRouter'
 import { Header } from '@/shared/components/custom-header'
+import { useAppRouter } from '@/shared/hooks/useAppRouter'
+
+const styles = StyleSheet.create({
+  container: {},
+
+  buttonContainer: {
+    gap: 12,
+    paddingVertical: 24,
+    flex: 1,
+  },
+  button: {
+    backgroundColor: 'gray',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
 
 export const First = () => {
   const { navigate } = useAppRouter()
@@ -50,19 +66,3 @@ export const First = () => {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {},
-
-  buttonContainer: {
-    gap: 12,
-    paddingVertical: 24,
-    flex: 1,
-  },
-  button: {
-    backgroundColor: 'gray',
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-})

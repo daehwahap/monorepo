@@ -5,10 +5,10 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack'
 
-import { NATIVE_STACK_LIST } from '@/screens/RootNativeStack/constants'
-import { NativeStackList } from '@/screens/RootNativeStack/type'
+import { NATIVE_STACK_LIST } from '@/screens/root-native-stack/constants'
+import { NativeStackList } from '@/screens/root-native-stack/type'
 
-import BottomTabNavigation from './BottomTab'
+import BottomTabNavigation from './bottom-tab'
 
 const RootNativeStack = createNativeStackNavigator<NativeStackList>()
 

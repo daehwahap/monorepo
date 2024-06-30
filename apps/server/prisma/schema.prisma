@@ -46,15 +46,15 @@ model InviteTier {
 }
 
 model InviteInfo {
-  uid                  String     @id
-  code                 String     @unique
-  tier                 String     
-  createdAt            DateTime   @default(now())
-  updatedAt            DateTime   @default(now())
+  uid                  String      @id
+  code                 String      @unique
+  tier                 String
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @default(now())
   availableInviteCount Int
-  inviteHistoryCount   Int        @default(0)
-  user                 User       @relation("UserInviteInfo", fields: [uid], references: [uid])
-  inviterTier          InviteTier @relation("UserInviteTier", fields: [tier], references: [tier])
+  inviteHistoryCount   Int         @default(0)
+  user                 User?       @relation("UserInviteInfo", fields: [uid], references: [uid])
+  inviterTier          InviteTier? @relation("UserInviteTier", fields: [tier], references: [tier])
 
   @@index([tier])
   @@index([code])

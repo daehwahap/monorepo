@@ -17,7 +17,4 @@ export const trpcOption = {
 }
 
 export const trpcQuery = createTRPCReact<AppRouter>()
-// react-query 같이쓰게하면 해당 api가 deprecated되는데
-// 사용상에는 지장이 없어서 사용.
-// 후에 버전올릴 때 이슈 있으면 대응 필요
 export const trpc = createTRPCProxyClient<AppRouter>(trpcOption)

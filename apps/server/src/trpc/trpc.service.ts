@@ -49,6 +49,7 @@ export class TrpcService {
   auth = this.trpc.middleware(async (input) => {
     const { next, ctx } = input
 
+    console.log('auth')
     if (!ctx) {
       throw new TRPCError({
         message: 'unAuthorization error',

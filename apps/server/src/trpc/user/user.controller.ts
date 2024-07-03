@@ -20,7 +20,9 @@ export class UserController {
     getAccessToken: this.trpcService.procedure
       .input(OauthAccessTokenDTO)
       .query(async ({ input }) => {
+        console.log('api')
         if (input.type === 'google') {
+          console.log(input)
           return await this.userService.googleLogin(input.accessToken)
         }
 
@@ -42,6 +44,7 @@ export class UserController {
         }),
       )
       .query(({ input }) => {
+        console.log('test')
         const { name } = input
         return {
           greeting: `Hello ${name ? name : `Bilbo`}`,

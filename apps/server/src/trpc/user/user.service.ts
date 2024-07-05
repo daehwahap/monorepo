@@ -53,8 +53,6 @@ export class UserService {
         uid: newUser.uid,
       })
 
-      await this.inviteService.createInviteInfo(uid)
-
       const accessToken = await this.authService.jwtSignIn(newUser as User)
       return { accessToken }
     }

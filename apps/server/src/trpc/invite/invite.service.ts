@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common'
-import { User } from '@prisma/client'
+import { InviteInfo, User } from '@prisma/client'
 import { InviteRepository } from 'src/trpc/invite/invite.repository'
 import { generateCode } from 'src/trpc/invite/invite.utils'
 
 @Injectable()
 export class InviteService {
   constructor(private readonly inviteRepository: InviteRepository) {}
+
+  async acceptInvite(code: InviteInfo['code'], inviteeUid: User['uid']) {
+    await this.inviteRepository.acceptInvite(code, inviteeUid)
+    await this.createInviteInfo(inviteeUid)
+  }
 
   async createInviteInfo(uid: User['uid']) {
     try {

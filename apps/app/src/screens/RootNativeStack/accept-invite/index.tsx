@@ -26,9 +26,14 @@ export const AcceptInvite = () => {
         onPress={async () => {
           try {
             const { success } = await trpc.invite.acceptInvite.mutate({ code: codeInput })
-            Alert.alert('성공', '성공', [{ text: '성공했습니다' }])
-          } catch {
-            Alert.alert('실패', '실패', [{ text: '실패했습니다' }])
+            if (success) {
+              Alert.alert('성공', '성공', [{ text: '성공했습니다' }])
+            } else {
+              Alert.alert('실패 - return false', '실패', [{ text: '실패했습니다' }])
+            }
+          } catch (e) {
+            console.error(e)
+            Alert.alert('실패 - error', '실패', [{ text: '실패했습니다' }])
           }
         }}
       />

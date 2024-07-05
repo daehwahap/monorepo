@@ -37,13 +37,6 @@ export class InviteController {
           })
         }
 
-        if (ctx.uid === inviteeUid) {
-          throw new TRPCError({
-            code: 'BAD_REQUEST',
-            message: '스스로를 초대할 수 없습니다.',
-          })
-        }
-
         try {
           await this.inviteService.acceptInvite(code, inviteeUid)
           return {

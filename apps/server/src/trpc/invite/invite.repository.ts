@@ -37,6 +37,7 @@ export class InviteRepository {
         const inviterUserInfo = inviterInviteInfo?.user
         if (inviterInviteInfo.availableInviteCount <= 0) {
           // TODO bongsu 여기에 에러 떤져야함
+          console.log('aaa')
           throw new TRPCError({
             code: 'BAD_REQUEST',
             message: '초대 가능 인원수를 초과해서, 초대할 수 없습니다.',
@@ -47,6 +48,13 @@ export class InviteRepository {
           throw new TRPCError({
             code: 'BAD_REQUEST',
             message: '초대해준 사람이 없습니다.',
+          })
+        }
+
+        if (inviterInviteInfo.uid === inviteeUid) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: '동일 유저의 초대코드입니다.',
           })
         }
 
@@ -73,8 +81,6 @@ export class InviteRepository {
             },
           }),
         ])
-
-        // Code running in a transaction...
       },
       {
         isolationLevel: Prisma.TransactionIsolationLevel.Serializable, // optional, default defined by database configuration

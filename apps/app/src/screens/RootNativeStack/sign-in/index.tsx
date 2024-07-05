@@ -1,7 +1,7 @@
 import { Alert, Button, View } from 'react-native'
 import { Header } from '../../../shared/components/custom-header'
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin'
-import { trpc } from '../../../shared/trpc'
+import { trpc, trpcQuery } from '../../../shared/trpc'
 import authStorage from '../../../shared/storage/Auth'
 
 export const SignIn = () => {
@@ -13,10 +13,13 @@ export const SignIn = () => {
         type: 'google',
         accessToken: token.accessToken,
       })
+      console.log(response)
+      Alert.alert('로그인 성공')
 
       authStorage.setToken(response.accessToken)
     } catch (e) {
       console.error(e)
+      Alert.alert('로그인 실패')
     }
   }
 

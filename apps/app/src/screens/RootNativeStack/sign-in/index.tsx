@@ -27,6 +27,13 @@ export const SignIn = () => {
     <View>
       <Header />
 
+      <Button
+        title="aaaaa"
+        onPress={async () => {
+          const aa = await fetch('http://localhost:8080')
+          console.log(aa)
+        }}
+      />
       <GoogleSigninButton
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Dark}

@@ -19,9 +19,12 @@ export class AuthService {
       throw new HttpException('잘못된 로그인 입니다.', 405)
     }
 
-    return await this.jwtService.signAsync(user, {
-      secret: JWT_SECRET,
-    })
+    return await this.jwtService.signAsync(
+      { uid: user.uid },
+      {
+        secret: JWT_SECRET,
+      },
+    )
   }
 
   decodeJWT(token: string) {

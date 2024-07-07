@@ -5,6 +5,9 @@ generator client {
 generator zod {
   provider = "pnpx zod-prisma-types"
   output   = "../src/prisma/dto"
+  createRelationValuesTypes = true
+  createInputTypes = false
+
 }
 
 datasource db {

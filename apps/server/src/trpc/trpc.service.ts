@@ -57,9 +57,9 @@ export class TrpcService {
       })
     }
 
-    const ctxAsUser = ctx as User
+    const ctxAsUid = ctx as Pick<User, 'uid'>
 
-    return next({ ctx: ctxAsUser })
+    return next({ ctx: ctxAsUid })
   })
 
   procedure = this.trpc.procedure

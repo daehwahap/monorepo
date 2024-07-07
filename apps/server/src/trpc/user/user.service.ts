@@ -18,8 +18,8 @@ export class UserService {
     private readonly inviteService: InviteService,
   ) {}
 
-  async getUser(userId: User['uid']) {
-    return this.userRepository.findUserById(userId)
+  async getUser({ uid }: Pick<User, 'uid'>) {
+    return this.userRepository.findUserById({ uid })
   }
 
   async googleLogin(_accessToken: string) {
@@ -57,7 +57,7 @@ export class UserService {
       return { accessToken }
     }
 
-    const existUser = await this.userRepository.findUserById(googleUser.uid)
+    const existUser = await this.userRepository.findUserById({ uid: googleUser.uid })
     const accessToken = await this.authService.jwtSignIn(existUser as User)
 
     return { accessToken }

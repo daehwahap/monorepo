@@ -10,7 +10,7 @@ export const trpcOption = {
   links: [
     httpBatchLink({
       // url: 'http://172.30.1.54:8080/trpc', // you should update this to use env variables
-      url: 'http://172.30.1.54:8080/trpc', // you should update this to use env variables
+      url: 'http://localhost:8080/trpc', // you should update this to use env variables
       // url: 'http://localhost:8080/trpc', // you should update this to use env variables
       // url, // you should update this to use env variables
       headers() {

@@ -1,10 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common'
+import { TRPCError } from '@trpc/server'
 
 @Controller('/')
 export class AppController {
-    constructor() {}
-    @Get('/')
-    async helloWorld() {
-        return 'hello world'
-    }
+  @Get('/')
+  async test() {
+    return 'hello world'
+  }
 }

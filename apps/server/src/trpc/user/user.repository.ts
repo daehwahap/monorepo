@@ -22,7 +22,7 @@ export class UserRepository {
     })
   }
 
-  async findUserById(uid: User['uid']) {
-    return this.prismaService.user.findUnique({ where: { uid } })
+  async findUserById({ uid }: Pick<User, 'uid'>) {
+    return this.prismaService.user.findUniqueOrThrow({ where: { uid } })
   }
 }

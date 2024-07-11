@@ -1,3 +1,3 @@
-import { NATIVE_STACK_LIST_TYPE } from './RootNativeStack/type'
+import { NativeStackList } from '@/screens/root-native-stack/type'
 
-export type AllScreenType = NATIVE_STACK_LIST_TYPE
+export type AllScreenType = NativeStackList

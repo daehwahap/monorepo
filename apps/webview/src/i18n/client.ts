@@ -1,10 +1,8 @@
 'use client'
 
 import { useEffect } from 'react'
-import i18next from 'i18next'
 import { initReactI18next, useTranslation as useTransAlias } from 'react-i18next'
-import resourcesToBackend from 'i18next-resources-to-backend'
-import LanguageDetector from 'i18next-browser-languagedetector'
+
 import {
   type LanguageTypes,
   getOptions,
@@ -12,6 +10,10 @@ import {
   defaultNS,
   LANGUAGE_DATA,
 } from '@pinit/shared/src/constants'
+
+import i18next from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import resourcesToBackend from 'i18next-resources-to-backend'
 
 const runsOnServerSide = typeof window === 'undefined'
 

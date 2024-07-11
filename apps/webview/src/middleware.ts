@@ -1,5 +1,6 @@
-import { defaultLanguage, languages } from '@pinit/shared/src/utils'
 import { NextResponse, NextRequest } from 'next/server'
+
+import { defaultLanguage, languages } from '@pinit/shared/src/utils'
 
 // eslint-disable-next-line consistent-return
 export function middleware(request: NextRequest) {

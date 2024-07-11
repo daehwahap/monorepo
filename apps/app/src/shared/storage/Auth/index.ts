@@ -5,6 +5,7 @@ class AuthStorage extends MMKVWrapper<string> {
   setToken(item: string) {
     this.setItem(item)
   }
+
   getToken() {
     return this.getItem() ?? ''
   }

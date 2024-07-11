@@ -1,10 +1,11 @@
-import { Button, Text, View } from 'react-native'
-import { useAppRouter } from '../../../shared/hooks/useAppRouter'
-import { Toast } from '../../../shared/global-component/Toast'
 import { useTranslation } from 'react-i18next'
+import { Button, Text, View } from 'react-native'
+
 import i18next from 'i18next'
-import { languageUtils } from '../../../i18n'
-import { Header } from '../../../shared/components/custom-header'
+
+import { languageUtils } from '@/i18n'
+import { Header } from '@/shared/components/custom-header'
+import { Toast } from '@/shared/global-component/Toast'
 
 export const LanguageChange = () => {
   const { t } = useTranslation()

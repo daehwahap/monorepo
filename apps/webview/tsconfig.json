@@ -4,7 +4,8 @@
     "baseUrl": "./src",
     "paths": {
       "@/shared/*": ["./shared/*"],
-      "@/i18n/*": ["./i18n/*"]
+      "@/i18n/*": ["./i18n/*"],
+      "@/app/*": ["./app/*"]
     },
     "plugins": [
       {

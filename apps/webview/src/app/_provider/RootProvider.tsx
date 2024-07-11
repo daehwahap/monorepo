@@ -1,9 +1,10 @@
 'use client'
 
 import { PropsWithChildren } from 'react'
-import ReactQueryProvider from './ReactQueryProvider'
-import { BridgeProvider } from './PostMessageBridgeProvider'
+
 import GlobalComponentProvider from './GlobalComponentProvider'
+import { BridgeProvider } from './PostMessageBridgeProvider'
+import ReactQueryProvider from './ReactQueryProvider'
 
 export const RootProvider = ({ children }: PropsWithChildren) => (
   <ReactQueryProvider>

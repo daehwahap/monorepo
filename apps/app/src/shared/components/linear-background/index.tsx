@@ -1,8 +1,3 @@
-import { View } from "react-native"
+import { View } from 'react-native'
 
-export const LinearBackground = () => {
-    return <View>
-
-    </View>
-
-}
+export const LinearBackground = () => <View />

@@ -1,7 +1,16 @@
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
   plugins: [
-    'module-resolver',
+    [
+      'module-resolver',
+      {
+        alias: {
+          '@/shared': './src/shared',
+          '@/i18n': './src/i18n',
+          '@/screens': './src/screens',
+        },
+      },
+    ],
     [
       'module:react-native-dotenv',
       {

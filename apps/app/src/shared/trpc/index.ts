@@ -1,10 +1,9 @@
-import { createTRPCProxyClient } from '@trpc/client'
 import { AppRouter } from '@pinit/server/src/trpc/trpc.router'
-import { createTRPCReact, httpBatchLink } from '@trpc/react-query'
-import authStorage from '../storage/Auth'
-import { Platform } from 'react-native'
 
-// const url = Platform.OS !== 'android' ? 'http://10.0.2.2:8080/trpc' :
+import { createTRPCProxyClient } from '@trpc/client'
+import { createTRPCReact, httpBatchLink } from '@trpc/react-query'
+
+import authStorage from '@/shared/storage/Auth'
 
 export const trpcOption = {
   links: [

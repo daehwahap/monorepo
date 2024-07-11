@@ -1,9 +1,9 @@
+import { User, UserSchema } from './../../prisma/dto/index'
 import { Injectable } from '@nestjs/common'
 import { TrpcService } from '../trpc.service'
 import { UserService } from './user.service'
 import { OauthAccessTokenDTO } from './user.dto'
 import { noop } from 'rxjs'
-import { User } from '@prisma/client'
 import { z } from 'zod'
 
 @Injectable()
@@ -31,8 +31,8 @@ export class UserController {
      * JWT 기반으로 유저정보를 받아오는 로직
      */
     getUser: this.trpcService.authProcedure.input(noop).query(async ({ ctx }) => {
-      const { uid } = ctx as User
-      return await this.userService.getUser(uid)
+      const { uid } = ctx
+      return await this.userService.getUser({ uid })
     }),
 
     hello: this.trpcService.procedure

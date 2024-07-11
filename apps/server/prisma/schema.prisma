@@ -5,6 +5,9 @@ generator client {
 generator zod {
   provider = "pnpx zod-prisma-types"
   output   = "../src/prisma/dto"
+  createRelationValuesTypes = true
+  createInputTypes = false
+
 }
 
 datasource db {
@@ -15,13 +18,14 @@ datasource db {
 }
 
 model User {
-  name      String    @default("")
-  createdAt DateTime  @default(now())
-  imageUrl  String?
-  deletedAt DateTime?
-  updatedAt DateTime  @default(now())
-  uid       String    @id
-  type      Type      @default(USER)
+  name       String      @default("")
+  createdAt  DateTime    @default(now())
+  imageUrl   String?
+  deletedAt  DateTime?
+  updatedAt  DateTime    @default(now())
+  uid        String      @id
+  type       User_type   @default(USER_NOT_INVITED)
+  InviteInfo InviteInfo? @relation("UserInviteInfo")
 }
 
 model GoogleProfile {
@@ -37,21 +41,38 @@ model GoogleProfile {
 }
 
 model InviteTier {
-  tier            String @unique
+  tier            String       @id
   availableAmount Int
+  inviteInfo      InviteInfo[] @relation("UserInviteTier")
+
+  @@index([tier])
 }
 
-enum Type {
+model InviteInfo {
+  uid                  String      @id
+  code                 String      @unique
+  tier                 String
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @default(now())
+  availableInviteCount Int
+  inviteHistoryCount   Int         @default(0)
+  user                 User?       @relation("UserInviteInfo", fields: [uid], references: [uid])
+  inviterTier          InviteTier? @relation("UserInviteTier", fields: [tier], references: [tier])
+
+  @@index([tier])
+  @@index([code])
+  @@index([uid])
+}
+
+enum User_type {
+  USER_NOT_INVITED
   USER
   ADMIN
 }
 
-model InviteInfo {
-  uid String @id
-  code String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  availableInviteCount Int
-  inviteHistoryCount Int @default(0)
-  tier String
+model InviteRecord {
+  id         Int      @id @default(autoincrement())
+  inviteeUid String
+  inviterUid String
+  createdAt  DateTime @default(now())
 }

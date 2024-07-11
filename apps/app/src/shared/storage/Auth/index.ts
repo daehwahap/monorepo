@@ -1,5 +1,5 @@
-import { MMKVWrapper } from '@/shared/storage'
-import { STORAGE_KEY } from '@/shared/storage/constants'
+import MMKVWrapper from '..'
+import { STORAGE_KEY } from '../constants'
 
 class AuthStorage extends MMKVWrapper<string> {
   setToken(item: string) {
@@ -8,6 +8,9 @@ class AuthStorage extends MMKVWrapper<string> {
 
   getToken() {
     return this.getItem() ?? ''
+  }
+  removeToken() {
+    this.removeItem()
   }
 }
 

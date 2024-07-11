@@ -4,6 +4,7 @@ import type { CreateNextContextOptions } from '@trpc/server/adapters/next'
 import { AuthService } from 'src/auth/auth.service'
 import { ZodError } from 'zod'
 import * as Sentry from '@sentry/node'
+import { User } from '@prisma/client'
 
 // Create your context based on the request object
 // Will be available as `ctx` in all your resolvers
@@ -56,7 +57,9 @@ export class TrpcService {
       })
     }
 
-    return next({ ctx })
+    const ctxAsUid = ctx as Pick<User, 'uid'>
+
+    return next({ ctx: ctxAsUid })
   })
 
   procedure = this.trpc.procedure

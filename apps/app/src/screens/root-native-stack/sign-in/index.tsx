@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { Button, View } from 'react-native'
 
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin'
 
@@ -27,6 +27,14 @@ export const SignIn = () => {
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Dark}
         onPress={handleLoginPress}
+      />
+
+      <Button
+        title="aaaaa"
+        onPress={async () => {
+          const aa = await trpc.user.getUser.query()
+          console.log(aa, typeof aa.createdAt, aa.createdAt)
+        }}
       />
     </View>
   )

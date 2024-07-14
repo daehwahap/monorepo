@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common'
+import { User } from './../prisma/dto/index'
 import { TRPCError, initTRPC } from '@trpc/server'
 import type { CreateNextContextOptions } from '@trpc/server/adapters/next'
 import { AuthService } from 'src/auth/auth.service'
 import { ZodError } from 'zod'
 import * as Sentry from '@sentry/node'
-import { User } from '@prisma/client'
+import { Injectable } from '@nestjs/common'
+import superjson from 'superjson'
 
 // Create your context based on the request object
 // Will be available as `ctx` in all your resolvers
@@ -23,6 +24,7 @@ export class TrpcService {
   }
 
   trpc = initTRPC.context<typeof this.createContext>().create({
+    transformer: superjson,
     errorFormatter(opts) {
       const { shape, error, ctx, path, input } = opts
 

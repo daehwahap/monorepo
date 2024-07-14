@@ -2,10 +2,12 @@ import { AppRouter } from '@pinit/server/src/trpc/trpc.router'
 
 import { createTRPCProxyClient } from '@trpc/client'
 import { createTRPCReact, httpBatchLink } from '@trpc/react-query'
+import superjson from 'superjson'
 
 import authStorage from '@/shared/storage/Auth'
 
 export const trpcOption = {
+  transformer: superjson,
   links: [
     httpBatchLink({
       // url: 'http://172.30.1.54:8080/trpc', // you should update this to use env variables

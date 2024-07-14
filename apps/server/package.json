@@ -42,6 +42,7 @@
     "prisma": "^5.13.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "superjson": "https://github.com/11t518s/superjson",
     "uuid": "^10.0.0",
     "zod": "^3.23.4",
     "zod-prisma-types": "^3.1.6"

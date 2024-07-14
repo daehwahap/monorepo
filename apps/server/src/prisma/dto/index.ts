@@ -18,7 +18,7 @@ export const GoogleProfileScalarFieldEnumSchema = z.enum(['uid','sub','name','gi
 
 export const InviteTierScalarFieldEnumSchema = z.enum(['tier','availableAmount']);
 
-export const InviteInfoScalarFieldEnumSchema = z.enum(['uid','code','tier','createdAt','updatedAt','availableInviteCount','inviteHistoryCount']);
+export const InviteInfoScalarFieldEnumSchema = z.enum(['uid','code','createdAt','updatedAt','availableInviteCount','inviteHistoryCount','tier']);
 
 export const InviteRecordScalarFieldEnumSchema = z.enum(['id','inviteeUid','inviterUid','createdAt']);
 
@@ -112,11 +112,11 @@ export const InviteTierWithRelationsSchema: z.ZodType<InviteTierWithRelations> =
 export const InviteInfoSchema = z.object({
   uid: z.string(),
   code: z.string(),
-  tier: z.string(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   availableInviteCount: z.number().int(),
   inviteHistoryCount: z.number().int(),
+  tier: z.string(),
 })
 
 export type InviteInfo = z.infer<typeof InviteInfoSchema>

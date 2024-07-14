@@ -3,11 +3,10 @@ generator client {
 }
 
 generator zod {
-  provider = "pnpx zod-prisma-types"
-  output   = "../src/prisma/dto"
-  createRelationValuesTypes = true
-  createInputTypes = false
-
+  provider                  = "pnpx zod-prisma-types"
+  output                    = "../src/prisma/dto"
+  createRelationValuesTypes = "true"
+  createInputTypes          = "false"
 }
 
 datasource db {
@@ -19,10 +18,10 @@ datasource db {
 
 model User {
   name       String      @default("")
-  createdAt  DateTime    @default(now())
+  createdAt  DateTime   @default(now())   @db.Timestamp(0)
   imageUrl   String?
-  deletedAt  DateTime?
-  updatedAt  DateTime    @default(now())
+  deletedAt  DateTime?   @db.Timestamp(0)
+  updatedAt  DateTime   @default(now()) @db.Timestamp(0)
   uid        String      @id
   type       User_type   @default(USER_NOT_INVITED)
   InviteInfo InviteInfo? @relation("UserInviteInfo")
@@ -51,11 +50,11 @@ model InviteTier {
 model InviteInfo {
   uid                  String      @id
   code                 String      @unique
-  tier                 String
-  createdAt            DateTime    @default(now())
-  updatedAt            DateTime    @default(now())
+  createdAt            DateTime   @default(now())  @db.Timestamp(0)
+  updatedAt            DateTime   @default(now())  @db.Timestamp(0)
   availableInviteCount Int
   inviteHistoryCount   Int         @default(0)
+  tier                 String
   user                 User?       @relation("UserInviteInfo", fields: [uid], references: [uid])
   inviterTier          InviteTier? @relation("UserInviteTier", fields: [tier], references: [tier])
 
@@ -64,15 +63,15 @@ model InviteInfo {
   @@index([uid])
 }
 
-enum User_type {
-  USER_NOT_INVITED
-  USER
-  ADMIN
-}
-
 model InviteRecord {
   id         Int      @id @default(autoincrement())
   inviteeUid String
   inviterUid String
-  createdAt  DateTime @default(now())
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+}
+
+enum User_type {
+  USER_NOT_INVITED
+  USER
+  ADMIN
 }

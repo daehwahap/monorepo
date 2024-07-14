@@ -79,15 +79,15 @@ enum User_type {
 model UserProfile {
   uid           String             @id
   nickname      String
-  hobbies       UserProfileHobby[]
-  profileImages ProfileImage[]
+  hobbyList       UserProfileHobby[]
+  profileImageList ProfileImage[]
 }
 
 model Hobby {
   id            Int                @id @default(autoincrement())
   hobbyName     String
   parentHobbyId Int?
-  userProfiles  UserProfileHobby[]
+  userProfileList  UserProfileHobby[]
 }
 
 model UserProfileHobby {

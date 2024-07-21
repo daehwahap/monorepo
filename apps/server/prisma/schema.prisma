@@ -18,10 +18,10 @@ datasource db {
 
 model User {
   name       String      @default("")
-  createdAt  DateTime   @default(now())   @db.Timestamp(0)
+  createdAt  DateTime    @default(now()) @db.Timestamp(0)
   imageUrl   String?
   deletedAt  DateTime?   @db.Timestamp(0)
-  updatedAt  DateTime   @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime    @default(now()) @db.Timestamp(0)
   uid        String      @id
   type       User_type   @default(USER_NOT_INVITED)
   InviteInfo InviteInfo? @relation("UserInviteInfo")
@@ -50,8 +50,8 @@ model InviteTier {
 model InviteInfo {
   uid                  String      @id
   code                 String      @unique
-  createdAt            DateTime   @default(now())  @db.Timestamp(0)
-  updatedAt            DateTime   @default(now())  @db.Timestamp(0)
+  createdAt            DateTime    @default(now()) @db.Timestamp(0)
+  updatedAt            DateTime    @default(now()) @db.Timestamp(0)
   availableInviteCount Int
   inviteHistoryCount   Int         @default(0)
   tier                 String
@@ -77,38 +77,39 @@ enum User_type {
 }
 
 model UserProfile {
-  uid           String             @id
-  nickname      String
-  hobbyList       UserProfileHobby[]
-  profileImageList ProfileImage[]
+  uid      Int    @id @default(autoincrement())
+  nickname String
+
+  profileImageList ProfileImage[]     @relation("UserProfileImageList")
+  hobbyList        UserProfileHobby[] @relation("UserProfileHobbyList")
 }
 
 model Hobby {
-  id            Int                @id @default(autoincrement())
-  hobbyName     String
-  parentHobbyId Int?
-  userProfileList  UserProfileHobby[]
+  id              Int     @id @default(autoincrement())
+  hobbyName       String
+  parentHobbyName String?
+
+  userProfileList UserProfileHobby[] @relation("UserProfileHobbyList")
 }
 
 model UserProfileHobby {
-  uid     String
-  userProfile UserProfile @relation(fields: [uid], references: [uid])
-  
-  hobbyId Int
-  hobby Hobby @relation(fields: [hobbyId], references: [id])
+  userProfileId Int
+  hobbyId       Int
 
-  @@id([uid, hobbyId])
+  userProfile UserProfile @relation(fields: [userProfileId], references: [uid], onDelete: Cascade, name: "UserProfileHobbyList")
+  hobby       Hobby       @relation(fields: [hobbyId], references: [id], onDelete: Cascade, name: "UserProfileHobbyList")
 
-  @@index([uid])
+  @@id([userProfileId, hobbyId])
   @@index([hobbyId])
 }
 
 model ProfileImage {
-  uid         String  @id
-  url         String
+  id          Int     @id @default(autoincrement())
+  imageUrl    String
   description String?
 
-  userProfile UserProfile @relation(fields: [uid], references: [uid])
+  userProfile   UserProfile @relation(fields: [userProfileId], references: [uid], onDelete: Cascade, name: "UserProfileImageList")
+  userProfileId Int
 
-  @@index([uid])
+  @@index([userProfileId])
 }
